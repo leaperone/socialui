@@ -12,10 +12,18 @@ const meta = {
     qrCodeContent: { control: 'text' },
     accountName: { control: 'text' },
     placeholder: { control: 'text' },
-    size: {
+    shadow: {
       control: { type: 'select' },
-      options: ['sm', 'md', 'lg'],
+      options: ['none', 'sm', 'md', 'lg'],
     },
+    radius: {
+      control: { type: 'select' },
+      options: ['none', 'sm', 'md', 'lg'],
+    },
+    fullWidth: { control: 'boolean' },
+    isHoverable: { control: 'boolean' },
+    isPressable: { control: 'boolean' },
+    isBlurred: { control: 'boolean' },
   },
 } satisfies Meta<typeof WeChatCard>;
 
@@ -27,34 +35,59 @@ export const Default: Story = {
     qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
     accountName: '海鱼Harry',
     placeholder: '微信搜一搜',
-    size: 'md',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
-    accountName: '海鱼Harry',
-    placeholder: '微信搜一搜',
-    size: 'lg',
-  },
-};
-
-export const Small: Story = {
-  args: {
-    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
-    accountName: '海鱼Harry',
-    placeholder: '微信搜一搜',
-    size: 'sm',
   },
 };
 
 export const CustomAccount: Story = {
   args: {
-    qrCodeContent: 'https://weixin.qq.com/r/MyWeChat',
+    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
     accountName: 'MyWeChat',
     placeholder: '微信搜一搜',
-    size: 'md',
+  },
+};
+
+export const Hoverable: Story = {
+  args: {
+    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
+    accountName: '海鱼Harry',
+    placeholder: '微信搜一搜',
+    isHoverable: true,
+  },
+};
+
+export const Pressable: Story = {
+  args: {
+    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
+    accountName: '海鱼Harry',
+    placeholder: '微信搜一搜',
+    isPressable: true,
+  },
+};
+
+export const Blurred: Story = {
+  args: {
+    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
+    accountName: '海鱼Harry',
+    placeholder: '微信搜一搜',
+    isBlurred: true,
+  },
+};
+
+export const NoShadow: Story = {
+  args: {
+    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
+    accountName: '海鱼Harry',
+    placeholder: '微信搜一搜',
+    shadow: 'none',
+  },
+};
+
+export const FullWidth: Story = {
+  args: {
+    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
+    accountName: '海鱼Harry',
+    placeholder: '微信搜一搜',
+    fullWidth: true,
   },
 };
 

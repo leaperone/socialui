@@ -1,40 +1,35 @@
-import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
 import { Search } from "lucide-react";
+import { Button, Card, CardBody, cn, HeroUIProvider } from "@heroui/react";
 import QRCode from "qrcode";
 
 const IconifyIcon = lazy(() => import("@iconify/react").then(mod => ({ default: mod.Icon })));
 
-const wechatCard = cva(
-  "relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-500 to-green-400 p-6 text-white shadow-lg",
-  {
-    variants: {
-      size: {
-        sm: "p-4",
-        md: "p-6", 
-        lg: "p-8",
-      },
-    },
-    defaultVariants: { size: "md" },
-  }
-);
-
-export interface WeChatCardProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof wechatCard> {
+export interface WeChatCardProps {
   qrCodeContent?: string;
   accountName?: string;
   placeholder?: string;
+  className?: string;
+  shadow?: "none" | "sm" | "md" | "lg";
+  radius?: "none" | "sm" | "md" | "lg";
+  fullWidth?: boolean;
+  isHoverable?: boolean;
+  isPressable?: boolean;
+  isBlurred?: boolean;
 }
 
 export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
   ({ 
     className, 
-    size, 
     qrCodeContent = "http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK", 
     accountName = "海鱼Harry",
     placeholder = "微信搜一搜",
-    ...props 
+    shadow = "lg",
+    radius = "lg", 
+    fullWidth = false,
+    isHoverable = false,
+    isPressable = false,
+    isBlurred = false
   }, ref) => {
     const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
 
@@ -50,13 +45,31 @@ export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
     }, [qrCodeContent]);
 
     return (
-        <div ref={ref} className={wechatCard({ size, className })} {...props}>
-      {/* Main left-right layout */}
-      <div className="flex items-center gap-6">
-        {/* Left: QR Code section */}
+      <HeroUIProvider>
+
+      <Card 
+        ref={ref}
+        className={`relative overflow-hidden bg-gradient-to-r from-green-500 to-green-400 text-white ${className || ""}`}
+        shadow={shadow}
+        radius={radius}
+        fullWidth={fullWidth}
+        isHoverable={isHoverable}
+        isPressable={isPressable}
+        isBlurred={isBlurred}
+      >
+        <CardBody>
+          <div className="flex items-center gap-6">
         <div className="flex-shrink-0">
           <div className="relative">
-            <div className="h-28 w-28 overflow-hidden rounded-xl bg-white p-2">
+            <div className={cn(
+              "h-28 w-28 overflow-hidden bg-white p-2",
+              {
+                "rounded-none": radius === "none",
+                "rounded-sm": radius === "sm",
+                "rounded-md": radius === "md",
+                "rounded-xl": radius === "lg"
+              }
+            )}>
               {qrCodeDataUrl ? (
                 <img
                   src={qrCodeDataUrl}
@@ -86,18 +99,26 @@ export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
 
           {/* Search input section */}
           <div className="relative">
-            <div className="flex items-center gap-3 rounded-full bg-white/95 px-4 py-3 text-gray-600 shadow-sm backdrop-blur-sm">
+            <Button
+              radius={radius}
+              className="w-full flex items-center gap-3 bg-white/95 px-4 py-3 text-gray-600 shadow-sm backdrop-blur-sm"
+              onPress={() => {
+                navigator.clipboard.writeText(accountName);
+              }}
+            >
               <Search className="h-5 w-5 text-gray-400" />
               <span className="flex-1 text-base">{accountName}</span>
-            </div>
+            </Button>
           </div>
         </div>
       </div>
 
-      {/* Decorative elements */}
-      <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
-      <div className="absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-white/5"></div>
-    </div>
+          {/* Decorative elements */}
+          <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+          <div className="absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-white/5"></div>
+        </CardBody>
+      </Card>
+      </HeroUIProvider>
     );
   }
 );

@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./packages/ui/src/**/*.{js,ts,jsx,tsx}",
     "./apps/**/*.{js,ts,jsx,tsx}",
+    "./**/node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -44,6 +45,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [heroui()],
 }
 

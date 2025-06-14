@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react-vite'
+import React from 'react'
 import '../src/styles/globals.css'
 
 const preview: Preview = {
@@ -17,6 +18,11 @@ const preview: Preview = {
       test: 'todo'
     }
   },
+  decorators: [
+    (Story) => (
+        <Story />
+    ),
+  ],
 };
 
 export default preview;
