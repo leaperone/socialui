@@ -21,9 +21,7 @@ const meta = {
       options: ['none', 'sm', 'md', 'lg'],
     },
     fullWidth: { control: 'boolean' },
-    isHoverable: { control: 'boolean' },
     isPressable: { control: 'boolean' },
-    isBlurred: { control: 'boolean' },
   },
 } satisfies Meta<typeof WeChatCard>;
 
@@ -46,15 +44,6 @@ export const CustomAccount: Story = {
   },
 };
 
-export const Hoverable: Story = {
-  args: {
-    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
-    accountName: '海鱼Harry',
-    placeholder: '微信搜一搜',
-    isHoverable: true,
-  },
-};
-
 export const Pressable: Story = {
   args: {
     qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
@@ -64,21 +53,12 @@ export const Pressable: Story = {
   },
 };
 
-export const Blurred: Story = {
+export const Shadow: Story = {
   args: {
     qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
     accountName: '海鱼Harry',
     placeholder: '微信搜一搜',
-    isBlurred: true,
-  },
-};
-
-export const NoShadow: Story = {
-  args: {
-    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
-    accountName: '海鱼Harry',
-    placeholder: '微信搜一搜',
-    shadow: 'none',
+    shadow: 'lg',
   },
 };
 
