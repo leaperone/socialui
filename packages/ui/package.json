@@ -43,9 +43,11 @@
     "@heroui/react": "^2.7.10",
     "@heroui/theme": "^2.4.17",
     "@iconify/react": "^6.0.0",
+    "@types/qrcode": "^1.5.5",
     "class-variance-authority": "^0.7.1",
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.515.0",
+    "qrcode": "^1.5.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   }
