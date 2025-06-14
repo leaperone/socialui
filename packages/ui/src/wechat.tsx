@@ -1,6 +1,6 @@
 import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
 import { Search } from "lucide-react";
-import { Button, Card, CardBody, cn, HeroUIProvider } from "@heroui/react";
+import { Button, Card, CardBody, cn, HeroUIProvider, Tooltip } from "@heroui/react";
 import QRCode from "qrcode";
 
 const IconifyIcon = lazy(() => import("@iconify/react").then(mod => ({ default: mod.Icon })));
@@ -15,7 +15,6 @@ export interface WeChatCardProps {
   fullWidth?: boolean;
   isHoverable?: boolean;
   isPressable?: boolean;
-  isBlurred?: boolean;
   variant?: "solid" | "flat" | "faded" | "bordered" | "light";
   orientation?: "horizontal" | "vertical";
 }
@@ -26,12 +25,10 @@ export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
     qrCodeContent = "http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK", 
     accountName = "海鱼Harry",
     placeholder = "微信搜一搜",
-    shadow = "lg",
-    radius = "lg", 
+    shadow = "none",
+    radius = "md", 
     fullWidth = false,
-    isHoverable = false,
     isPressable = false,
-    isBlurred = false,
     variant = "solid",
     orientation = "horizontal"
   }, ref) => {
@@ -111,9 +108,7 @@ export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
           shadow={currentShadow}
           radius={radius}
           fullWidth={fullWidth}
-          isHoverable={isHoverable}
           isPressable={isPressable}
-          isBlurred={isBlurred}
         >
           <CardBody>
             <div className={cn("flex", layoutClasses)}>
@@ -154,16 +149,18 @@ export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
                 </div>
 
                 {/* Search input section */}
-                <Button
-                  radius={radius}
-                  className={cn("w-full flex items-center gap-3 px-4 py-3 shadow-sm", currentStyles.button)}
-                  startContent={<Search className="size-5 text-default-400" />}
-                  onPress={() => navigator.clipboard.writeText(accountName)}
-                >
-                  <span className={cn("text-base", isVertical ? "text-center" : "flex-1")}>
-                    {accountName}
-                  </span>
-                </Button>
+                <Tooltip content="点击复制 / Click to copy">
+                  <Button
+                    radius={radius}
+                    className={cn("w-full flex items-center gap-3 px-4 py-3 shadow-sm", currentStyles.button)}
+                    startContent={<Search className="size-5 text-default-400" />}
+                    onPress={() => navigator.clipboard.writeText(accountName)}
+                  >
+                    <span className={cn("text-base", isVertical ? "text-center" : "flex-1")}>
+                      {accountName}
+                    </span>
+                  </Button>
+                </Tooltip>
               </div>
             </div>
           </CardBody>
