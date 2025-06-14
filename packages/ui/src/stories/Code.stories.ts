@@ -10,7 +10,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     className: { control: 'text' },
-    children: { control: 'text' },
+    children: { control: 'text' }
   },
 } satisfies Meta<typeof Code>;
 
@@ -19,36 +19,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: 'npm install turbo',
+    children: 'Example content',
+    className: 'Example className'
   },
 };
 
-export const JavaScriptCode: Story = {
-  args: {
-    children: 'const hello = "world";',
-    className: 'language-javascript',
-  },
-};
-
-export const TypeScriptCode: Story = {
-  args: {
-    children: 'interface User { name: string; }',
-    className: 'language-typescript',
-  },
-};
-
-export const BashCommand: Story = {
-  args: {
-    children: 'pnpm install && pnpm dev',
-    className: 'language-bash',
-  },
-};
-
-export const MultilineCode: Story = {
-  args: {
-    children: `function greet(name: string) {
-  return \`Hello, \${name}!\`;
-}`,
-    className: 'language-typescript',
-  },
-}; 

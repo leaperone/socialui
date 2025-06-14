@@ -12,7 +12,7 @@ const meta = {
     className: { control: 'text' },
     title: { control: 'text' },
     href: { control: 'text' },
-    children: { control: 'text' },
+    children: { control: 'text' }
   },
 } satisfies Meta<typeof Card>;
 
@@ -21,33 +21,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    title: 'Documentation',
-    href: 'https://turbo.build/repo/docs',
-    children: 'Find in-depth information about Turbo features and API.',
+    children: 'Example content',
+    className: 'Example className',
+    title: 'Example title',
+    href: 'Example href'
   },
 };
 
-export const Learn: Story = {
-  args: {
-    title: 'Learn',
-    href: 'https://turbo.build/repo/docs/handbook',
-    children: 'Learn about Turbo in an interactive course with quizzes!',
-  },
-};
-
-export const Templates: Story = {
-  args: {
-    title: 'Templates',
-    href: 'https://vercel.com/templates',
-    children: 'Discover and deploy boilerplate example Turbo apps.',
-  },
-};
-
-export const Deploy: Story = {
-  args: {
-    title: 'Deploy',
-    href: 'https://vercel.com/new',
-    children: 'Instantly deploy your Turbo app with Vercel.',
-    className: 'custom-card-class',
-  },
-}; 

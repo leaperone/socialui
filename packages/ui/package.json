@@ -8,6 +8,8 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
+    "generate:stories": "node scripts/generate-stories.js",
+    "watch:stories": "node scripts/watch-stories.js",
     "check-types": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
