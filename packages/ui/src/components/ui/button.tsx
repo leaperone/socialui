@@ -15,7 +15,6 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isIconOnly?: boolean;
   isDisabled?: boolean;
   isLoading?: boolean;
-  disableRipple?: boolean;
   disableAnimation?: boolean;
   onPress?: () => void;
 }
@@ -36,7 +35,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     isIconOnly = false,
     isDisabled = false,
     isLoading = false,
-    disableRipple = false,
     disableAnimation = false,
     onPress,
     onClick,
