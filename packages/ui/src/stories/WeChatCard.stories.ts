@@ -36,11 +36,12 @@ export const Default: Story = {
   },
 };
 
-export const CustomAccount: Story = {
+export const NoRadius: Story = {
   args: {
     qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
-    accountName: 'MyWeChat',
+    accountName: '海鱼Harry',
     placeholder: '微信搜一搜',
+    radius: 'none',
   },
 };
 
@@ -53,7 +54,7 @@ export const Pressable: Story = {
   },
 };
 
-export const Shadow: Story = {
+export const ShadowLarge: Story = {
   args: {
     qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
     accountName: '海鱼Harry',
@@ -71,3 +72,11 @@ export const FullWidth: Story = {
   },
 };
 
+export const Vertical: Story = {
+  args: {
+    qrCodeContent: 'http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK',
+    accountName: '海鱼Harry',
+    placeholder: '微信搜一搜',
+    orientation: 'vertical',
+  },
+};

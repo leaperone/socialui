@@ -55,25 +55,25 @@ export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
         decorative: { primary: "bg-white/10", secondary: "bg-white/5" }
       },
       flat: {
-        card: "bg-green-200 text-foreground",
+        card: "bg-green-200/50 text-foreground",
         qr: "bg-white",
         button: "bg-white text-default-600",
         decorative: { primary: "bg-green-200/30", secondary: "bg-green-200/20" }
       },
       faded: {
-        card: "bg-green-50 text-foreground",
+        card: "bg-green-50/50 text-foreground",
         qr: "bg-white/80",
         button: "bg-white/60 text-default-600 backdrop-blur-sm",
         decorative: { primary: "bg-green-300/20", secondary: "bg-green-300/10" }
       },
       bordered: {
-        card: "bg-background text-foreground border-2 border-green-200",
+        card: "bg-background text-foreground border-2 border-green-500/70",
         qr: "bg-white",
         button: "bg-white text-default-600 border border-green-200",
         decorative: { primary: "bg-green-100/50", secondary: "bg-green-100/30" }
       },
       light: {
-        card: "bg-green-50 text-foreground",
+        card: "bg-transparent text-foreground",
         qr: "bg-white",
         button: "bg-white text-default-600",
         decorative: { primary: "bg-green-200/30", secondary: "bg-green-200/20" }  
