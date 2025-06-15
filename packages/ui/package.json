@@ -40,11 +40,10 @@
     "vitest": "^3.2.3"
   },
   "dependencies": {
-    "@heroui/react": "^2.7.10",
-    "@heroui/theme": "^2.4.17",
     "@iconify/react": "^6.0.0",
     "@types/qrcode": "^1.5.5",
     "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.515.0",
     "qrcode": "^1.5.4",
