@@ -11,7 +11,7 @@
     "generate:stories": "node scripts/generate-stories.js",
     "watch:stories": "node scripts/watch-stories.js",
     "check-types": "tsc --noEmit",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --ci",
     "build-storybook": "storybook build"
   },
   "devDependencies": {
