@@ -8,6 +8,8 @@ const STORIES_DIR = path.join(__dirname, '../src/stories');
 
 // 要忽略的文件
 const IGNORE_FILES = ['index.tsx', 'index.ts'];
+// 要忽略的目录
+const IGNORE_DIRS = ['stories', 'styles'];
 
 // 读取组件文件并提取信息
 function parseComponentFile(filePath) {
@@ -133,9 +135,43 @@ function analyzeProps(content, componentName) {
   return props;
 }
 
+// 递归扫描目录获取所有 tsx 文件
+function getAllTsxFiles(dir, baseDir = SRC_DIR) {
+  const files = [];
+  const items = fs.readdirSync(dir);
+  
+  for (const item of items) {
+    const fullPath = path.join(dir, item);
+    const stat = fs.statSync(fullPath);
+    
+    if (stat.isDirectory()) {
+      // 跳过忽略的目录
+      if (IGNORE_DIRS.includes(item)) {
+        continue;
+      }
+      // 递归扫描子目录
+      files.push(...getAllTsxFiles(fullPath, baseDir));
+    } else if (stat.isFile() && item.endsWith('.tsx') && !IGNORE_FILES.includes(item) && !item.includes('.stories.')) {
+      // 计算相对路径
+      const relativePath = path.relative(baseDir, fullPath);
+      files.push({
+        fullPath,
+        relativePath,
+        fileName: item,
+        dirPath: path.dirname(relativePath)
+      });
+    }
+  }
+  
+  return files;
+}
+
 // 生成Stories文件内容
-function generateStoryContent(componentName, fileName, props) {
-  const importPath = `../${fileName.replace('.tsx', '')}`;
+function generateStoryContent(componentName, fileInfo, props) {
+  // 计算正确的导入路径
+  const importPath = fileInfo.dirPath === '.' 
+    ? `../${fileInfo.fileName.replace('.tsx', '')}` 
+    : `../../${fileInfo.relativePath.replace('.tsx', '')}`;
   
   const argTypes = props.length > 0 ? props.map(prop => {
     if (typeof prop.control === 'object') {
@@ -161,11 +197,38 @@ function generateStoryContent(componentName, fileName, props) {
 
   const hasChildren = props.some(prop => prop.name === 'children');
 
+  // 生成 Storybook 的 title，保持目录结构
+  const titlePath = fileInfo.dirPath === '.' 
+    ? `UI/${componentName}` 
+    : `UI/${fileInfo.dirPath.split('/').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join('/')}/${componentName}`;
+
+  // 只为主要的变体生成 stories，避免重复
+  const variantProps = props.filter(prop => typeof prop.control === 'object');
+  const uniqueVariantStories = new Map();
+  
+  variantProps.forEach(prop => {
+    prop.control.options.forEach(option => {
+      const storyName = `${prop.name.charAt(0).toUpperCase() + prop.name.slice(1)}${option.charAt(0).toUpperCase() + option.slice(1)}`;
+      if (!uniqueVariantStories.has(storyName)) {
+        uniqueVariantStories.set(storyName, { prop: prop.name, option });
+      }
+    });
+  });
+
+  const variantStories = Array.from(uniqueVariantStories.entries()).map(([storyName, { prop, option }]) => `
+export const ${storyName}: Story = {
+  args: {${hasChildren ? `
+    children: 'Example content',` : ''}
+    ${prop}: '${option}',${defaultArgs ? `
+${defaultArgs.split('\n').filter(line => !line.includes(`${prop}:`)).join('\n')}` : ''}
+  },
+};`).join('');
+
   return `import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ${componentName} } from '${importPath}';
 
 const meta = {
-  title: 'UI/${componentName}',
+  title: '${titlePath}',
   component: ${componentName},
   parameters: {
     layout: 'centered',
@@ -184,63 +247,60 @@ export const Default: Story = {${defaultArgs || hasChildren ? `
     children: 'Example content',` : ''}${defaultArgs ? `
 ${defaultArgs}` : ''}
   },` : ''}
-};
-
-${props.filter(prop => typeof prop.control === 'object').map(prop => 
-  prop.control.options.map(option => `
-export const ${option.charAt(0).toUpperCase() + option.slice(1)}: Story = {
-  args: {${hasChildren ? `
-    children: 'Example content',` : ''}
-    ${prop.name}: '${option}',${defaultArgs ? `
-${defaultArgs.split('\n').filter(line => !line.includes(prop.name)).join('\n')}` : ''}
-  },
-};`).join('')
-).join('')}`;
+};${variantStories}`;
 }
 
 // 主函数
 function generateStories() {
-  console.log('🔍 扫描组件文件...');
+  console.log('🔍 递归扫描组件文件...');
   
   // 确保stories目录存在
   if (!fs.existsSync(STORIES_DIR)) {
     fs.mkdirSync(STORIES_DIR, { recursive: true });
   }
   
-  // 扫描src目录下的tsx文件
-  const files = fs.readdirSync(SRC_DIR)
-    .filter(file => file.endsWith('.tsx') && !IGNORE_FILES.includes(file))
-    .filter(file => !file.includes('.stories.'));
+  // 递归扫描所有tsx文件
+  const files = getAllTsxFiles(SRC_DIR);
   
   console.log(`📁 找到 ${files.length} 个组件文件`);
   
-  files.forEach(file => {
-    const filePath = path.join(SRC_DIR, file);
-    const { components } = parseComponentFile(filePath);
+  files.forEach(fileInfo => {
+    const { components } = parseComponentFile(fileInfo.fullPath);
     
     if (components.length === 0) {
-      console.log(`⚠️  ${file} 中没有找到导出的组件`);
+      console.log(`⚠️  ${fileInfo.relativePath} 中没有找到导出的组件`);
       return;
     }
     
     components.forEach(componentName => {
-      const storyFileName = `${componentName}.stories.ts`;
-      const storyFilePath = path.join(STORIES_DIR, storyFileName);
+      const storyFileName = `${componentName}.stories.tsx`;
+      
+      // 根据原文件的目录结构创建对应的 stories 目录
+      const storyDirPath = fileInfo.dirPath === '.' 
+        ? STORIES_DIR 
+        : path.join(STORIES_DIR, fileInfo.dirPath);
+      
+      // 确保目标目录存在
+      if (!fs.existsSync(storyDirPath)) {
+        fs.mkdirSync(storyDirPath, { recursive: true });
+      }
+      
+      const storyFilePath = path.join(storyDirPath, storyFileName);
       
       // 检查是否已经存在stories文件
       if (fs.existsSync(storyFilePath)) {
-        console.log(`⏭️  ${storyFileName} 已存在，跳过`);
+        console.log(`⏭️  ${path.relative(STORIES_DIR, storyFilePath)} 已存在，跳过`);
         return;
       }
       
-      console.log(`✨ 为 ${componentName} 生成 Stories...`);
+      console.log(`✨ 为 ${componentName} 生成 Stories (${fileInfo.relativePath})...`);
       
-      const { content } = parseComponentFile(filePath);
+      const { content } = parseComponentFile(fileInfo.fullPath);
       const props = analyzeProps(content, componentName);
-      const storyContent = generateStoryContent(componentName, file, props);
+      const storyContent = generateStoryContent(componentName, fileInfo, props);
       
       fs.writeFileSync(storyFilePath, storyContent);
-      console.log(`✅ 已生成 ${storyFileName}`);
+      console.log(`✅ 已生成 ${path.relative(STORIES_DIR, storyFilePath)}`);
     });
   });
   
