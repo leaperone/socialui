@@ -1,0 +1,37 @@
+{
+  "name": "dev-socialui",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceFolder": "/root/socialui",
+  "shutdownAction": "stopContainer",
+  "remoteUser": "root",
+  "runArgs": ["--network=host"],
+  "forwardPorts": [6006],
+  "postCreateCommand": "git clone git@github.com:leaperone/socialui.git .",
+  "postStartCommand": "sh .devcontainer/init.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "steoates.autoimport",
+        "naumovs.color-highlight",
+        "dbaeumer.vscode-eslint",
+        "redjue.git-commit-plugin",
+        "antfu.iconify",
+        "xabikos.javascriptsnippets",
+        "esbenp.prettier-vscode",
+        "gruntfuggly.todo-tree",
+        "stylelint.vscode-stylelint",
+        "standard.vscode-standard",
+        "bradlc.vscode-tailwindcss",
+        "aaron-bond.better-comments",
+        "mikestead.dotenv",
+        "kisstkondoros.vscode-gutter-preview",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ]
+}
