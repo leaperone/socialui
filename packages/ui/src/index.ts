@@ -2,7 +2,6 @@
 export * from "./components/ui";
 
 // Utilities
-export * from "./utils";
 
 // WeChat Components
-export { WeChatCard, type WeChatCardProps } from "./wechat/card"; 
+export { WeChatOfficialAccountCard as WeChatCard, type WeChatCardOfficialProps as WeChatCardProps } from "./wechat/wechat-official-account-card"; 

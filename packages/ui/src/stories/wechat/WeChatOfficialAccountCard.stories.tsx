@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { WeChatCard } from '../../wechat/card';
+import { WeChatOfficialAccountCard } from '../../wechat/wechat-official-account-card';
 
 const meta = {
-  title: 'UI/Wechat/WeChatCard',
-  component: WeChatCard,
+  title: 'UI/Wechat/WeChatOfficialAccountCard',
+  component: WeChatOfficialAccountCard,
   parameters: {
     layout: 'centered',
   },
@@ -33,7 +33,7 @@ const meta = {
       options: ['horizontal', 'vertical'],
     }
   },
-} satisfies Meta<typeof WeChatCard>;
+} satisfies Meta<typeof WeChatOfficialAccountCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

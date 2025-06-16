@@ -8,7 +8,7 @@ import QRCode from "qrcode";
 
 const IconifyIcon = lazy(() => import("@iconify/react").then(mod => ({ default: mod.Icon })));
 
-export interface WeChatCardProps {
+export interface WeChatOfficialAccountCardProps {
   qrCodeContent?: string;
   accountName?: string;
   placeholder?: string;
@@ -22,7 +22,7 @@ export interface WeChatCardProps {
   orientation?: "horizontal" | "vertical";
 }
 
-export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
+export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOfficialAccountCardProps>(
   ({ 
     className, 
     qrCodeContent = "http://weixin.qq.com/r/mp/mBeRiZ3ENsBJrdnq90KK", 
@@ -83,7 +83,7 @@ export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
       }
     };
 
-    const currentStyles = variantStyles[variant] || variantStyles.solid;
+    const currentStyles = variantStyles[variant as keyof typeof variantStyles] || variantStyles.solid;
     const currentShadow = variant === "bordered" ? "none" : shadow;
 
     // Layout classes based on orientation
@@ -106,13 +106,17 @@ export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
     return (
         <Card 
           ref={ref}
-          className={cn("overflow-hidden", currentStyles.card, className)}
+          className={cn("relative overflow-hidden", currentStyles.card, className)}
           shadow={currentShadow}
           radius={radius}
           fullWidth={fullWidth}
           isPressable={isPressable}
         >
-          <CardBody>
+          {/* Decorative circles - positioned inside card boundaries */}
+          <div className={cn("absolute right-4 top-4 h-24 w-24 rounded-full translate-x-1/2 -translate-y-1/2", currentStyles.decorative.primary)} />
+          <div className={cn("absolute bottom-6 left-6 h-32 w-32 rounded-full -translate-x-1/2 translate-y-1/2", currentStyles.decorative.secondary)} />
+          
+          <CardBody className="relative z-10">
             <div className={cn("flex", layoutClasses)}>
               {/* QR Code */}
               <div className={qrContainerClasses}>
@@ -166,11 +170,9 @@ export const WeChatCard = forwardRef<HTMLDivElement, WeChatCardProps>(
               </div>
             </div>
           </CardBody>
-          <div className={cn("absolute -right-4 -top-4 h-24 w-24 rounded-full", currentStyles.decorative.primary)} />
-          <div className={cn("absolute -bottom-6 -left-6 h-32 w-32 rounded-full", currentStyles.decorative.secondary)} />
         </Card>
     );
   }
 );
 
-WeChatCard.displayName = "WeChatCard";
+WeChatOfficialAccountCard.displayName = "WeChatOfficialAccountCard";
