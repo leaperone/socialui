@@ -28,18 +28,7 @@
     "node": ">=18"
   },
   "lint-staged": {
-    "packages/**/*.{js,jsx,ts,tsx}": [
-      "bash -c 'cd $(dirname $0) && while [[ ! -f package.json && $(pwd) != / ]]; do cd ..; done && pnpm lint --fix'",
-      "prettier --write"
-    ],
-    "apps/**/*.{js,jsx,ts,tsx}": [
-      "bash -c 'cd $(dirname $0) && while [[ ! -f package.json && $(pwd) != / ]]; do cd ..; done && pnpm lint --fix'",
-      "prettier --write"
-    ],
-    "**/*.{css,scss,less}": [
-      "prettier --write"
-    ],
-    "*.{json,md,yaml,yml}": [
+    "*.{js,jsx,ts,tsx,json,css,scss,less,md,yaml,yml}": [
       "prettier --write"
     ]
   }
