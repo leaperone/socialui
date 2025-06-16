@@ -57,34 +57,42 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
     // Variant styles configuration
     const variantStyles = {
       solid: {
-        card: "bg-gradient-to-r from-green-500 to-green-400 text-white",
+        card: "bg-gradient-to-r from-success-500 to-success-400 text-white",
         qr: "bg-white",
-        button: "bg-white/95 text-gray-600 backdrop-blur-sm",
+        button: {
+          color: "default" as const,
+          variant: "light" as const,
+          className: "bg-white/95 backdrop-blur-sm",
+        },
         decorative: { primary: "bg-white/10", secondary: "bg-white/5" },
       },
       flat: {
-        card: "bg-green-200/50 text-foreground",
+        card: "bg-success-100/50 text-foreground",
         qr: "bg-white",
-        button: "bg-white text-gray-600",
-        decorative: { primary: "bg-green-200/30", secondary: "bg-green-200/20" },
+        button: { color: "success" as const, variant: "flat" as const, className: "" },
+        decorative: { primary: "bg-success-200/30", secondary: "bg-success-200/20" },
       },
       faded: {
-        card: "bg-green-50/50 text-foreground",
+        card: "bg-success-50/50 text-foreground",
         qr: "bg-white/80",
-        button: "bg-white/60 text-gray-600 backdrop-blur-sm",
-        decorative: { primary: "bg-green-300/20", secondary: "bg-green-300/10" },
+        button: {
+          color: "success" as const,
+          variant: "faded" as const,
+          className: "backdrop-blur-sm",
+        },
+        decorative: { primary: "bg-success-300/20", secondary: "bg-success-300/10" },
       },
       bordered: {
-        card: "bg-background text-foreground border-2 border-green-500/70",
+        card: "bg-background text-foreground border-2 border-success-500/70",
         qr: "bg-white",
-        button: "bg-white text-gray-600 border border-green-200",
-        decorative: { primary: "bg-green-100/50", secondary: "bg-green-100/30" },
+        button: { color: "success" as const, variant: "bordered" as const, className: "" },
+        decorative: { primary: "bg-success-100/50", secondary: "bg-success-100/30" },
       },
       light: {
         card: "bg-transparent text-foreground",
         qr: "bg-white",
-        button: "bg-white text-gray-600",
-        decorative: { primary: "bg-green-200/30", secondary: "bg-green-200/20" },
+        button: { color: "success" as const, variant: "light" as const, className: "" },
+        decorative: { primary: "bg-success-200/30", secondary: "bg-success-200/20" },
       },
     };
 
@@ -167,12 +175,14 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
               {/* Search input section */}
               <Tooltip content="点击复制 / Click to copy">
                 <Button
+                  color={currentStyles.button.color}
+                  variant={currentStyles.button.variant}
                   radius={radius}
                   className={cn(
                     "w-full flex items-center gap-3 px-4 py-3 shadow-sm",
-                    currentStyles.button
+                    currentStyles.button.className
                   )}
-                  startContent={<Search className="size-5 text-gray-400" />}
+                  startContent={<Search className="size-5 opacity-60" />}
                   onPress={() => navigator.clipboard.writeText(accountName)}
                 >
                   <span className={cn("text-base", isVertical ? "text-center" : "flex-1")}>

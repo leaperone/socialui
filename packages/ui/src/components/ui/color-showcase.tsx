@@ -223,6 +223,60 @@ export const ColorShowcase = () => {
           </div>
         </CardBody>
       </Card>
+
+      {/* Card and Button Integration Examples */}
+      <Card variant="bordered">
+        <CardBody>
+          <h3 className="text-lg font-semibold mb-4">
+            卡片和按钮集成示例 (Card & Button Integration)
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {semanticColors.map(colorName => (
+              <div key={colorName} className="space-y-4">
+                <h4 className="font-medium capitalize text-center">{colorName} Theme</h4>
+
+                {/* Light themed card with matching button */}
+                <Card color={colorName as any} variant="light" className="p-4">
+                  <div className="space-y-3">
+                    <h5 className="font-medium">Light Card</h5>
+                    <p className="text-sm opacity-80">Light variant with {colorName} theme.</p>
+                    <Button color={colorName as any} variant="solid" size="sm" fullWidth>
+                      Primary Action
+                    </Button>
+                  </div>
+                </Card>
+
+                {/* Bordered card with matching buttons */}
+                <Card color={colorName as any} variant="bordered" className="p-4">
+                  <div className="space-y-3">
+                    <h5 className="font-medium">Bordered Card</h5>
+                    <p className="text-sm opacity-80">Bordered variant with button combinations.</p>
+                    <div className="flex gap-2">
+                      <Button color={colorName as any} variant="bordered" size="sm">
+                        Cancel
+                      </Button>
+                      <Button color={colorName as any} variant="solid" size="sm">
+                        Confirm
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Faded card with ghost button */}
+                <Card color={colorName as any} variant="faded" className="p-4">
+                  <div className="space-y-3">
+                    <h5 className="font-medium">Faded Card</h5>
+                    <p className="text-sm opacity-80">Subtle faded style with ghost button.</p>
+                    <Button color={colorName as any} variant="ghost" size="sm" fullWidth>
+                      Ghost Action
+                    </Button>
+                  </div>
+                </Card>
+              </div>
+            ))}
+          </div>
+        </CardBody>
+      </Card>
     </div>
   );
 };
