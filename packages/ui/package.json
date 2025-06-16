@@ -7,6 +7,10 @@
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
+    "lint:style": "stylelint \"src/**/*.{css,scss,less}\"",
+    "lint:style:fix": "stylelint \"src/**/*.{css,scss,less}\" --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "generate:component": "turbo gen react-component",
     "generate:stories": "node scripts/generate-stories.js",
     "watch:stories": "node scripts/watch-stories.js",
