@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# 检查提交消息格式
+# 格式：<type>[optional scope]: <description>
+# 例子：feat(ui): add new button component
+
+commit_regex='^(feat|fix|docs|style|refactor|test|chore|perf|build|ci|revert)(\(.+\))?: .{1,50}'
+
+if ! grep -qE "$commit_regex" "$1"; then
+    echo "Invalid commit message format!"
+    echo "Commit message should follow: <type>[optional scope]: <description>"
+    echo "Types: feat, fix, docs, style, refactor, test, chore, perf, build, ci, revert"
+    echo "Example: feat(ui): add new button component"
+    exit 1
+fi 

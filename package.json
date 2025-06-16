@@ -10,10 +10,13 @@
     "format": "turbo run format",
     "format:check": "turbo run format:check",
     "format:root": "prettier --write \"**/*.{ts,tsx,md,json}\"",
-    "check-types": "turbo run check-types"
+    "check-types": "turbo run check-types",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "postcss": "^8.5.5",
     "prettier": "^3.5.3",
     "tailwindcss": "^3.4.17",
@@ -23,5 +26,18 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,scss,less}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yaml,yml}": [
+      "prettier --write"
+    ]
   }
 }
