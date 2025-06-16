@@ -28,12 +28,15 @@
     "node": ">=18"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
+    "packages/**/*.{js,jsx,ts,tsx}": [
+      "bash -c 'cd $(dirname $0) && while [[ ! -f package.json && $(pwd) != / ]]; do cd ..; done && pnpm lint --fix'",
       "prettier --write"
     ],
-    "*.{css,scss,less}": [
-      "stylelint --fix",
+    "apps/**/*.{js,jsx,ts,tsx}": [
+      "bash -c 'cd $(dirname $0) && while [[ ! -f package.json && $(pwd) != / ]]; do cd ..; done && pnpm lint --fix'",
+      "prettier --write"
+    ],
+    "**/*.{css,scss,less}": [
       "prettier --write"
     ],
     "*.{json,md,yaml,yml}": [

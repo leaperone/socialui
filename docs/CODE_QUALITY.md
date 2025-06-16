@@ -95,26 +95,52 @@ pnpm format:check
 - `.vscode/settings.json` - VSCode 设置
 - `.vscode/extensions.json` - VSCode 扩展推荐
 
-## Git Hooks（可选）
+## Git Hooks
 
-可以考虑添加 husky 和 lint-staged 来在提交前自动检查代码：
+项目已配置 husky 和 lint-staged 来在 Git 提交前自动检查和修复代码：
+
+### 自动执行的检查
+
+**Pre-commit Hook（提交前）：**
+
+- JavaScript/TypeScript 文件：ESLint 修复 + Prettier 格式化
+- CSS/SCSS/Less 文件：Stylelint 修复 + Prettier 格式化
+- JSON/Markdown/YAML 文件：Prettier 格式化
+
+**Commit-msg Hook（提交消息检查）：**
+
+- 检查提交消息是否符合约定式提交格式
+- 格式：`<type>[optional scope]: <description>`
+- 支持的类型：feat, fix, docs, style, refactor, test, chore, perf, build, ci, revert
+
+### 提交消息示例
 
 ```bash
-# 安装依赖
-pnpm add -D husky lint-staged
+# ✅ 正确格式
+git commit -m "feat(ui): add new button component"
+git commit -m "fix: resolve login issue"
+git commit -m "docs: update README"
+git commit -m "style(button): improve hover effects"
 
-# 初始化 husky
-npx husky init
+# ❌ 错误格式
+git commit -m "add button"
+git commit -m "fixed bug"
 ```
 
-然后在 `package.json` 中添加：
+### 跳过 Hook（紧急情况）
 
-```json
-{
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
-    "*.{css,scss,less}": ["stylelint --fix", "prettier --write"],
-    "*.{json,md}": ["prettier --write"]
-  }
-}
+如果需要跳过检查（不推荐），可以使用：
+
+```bash
+# 跳过 pre-commit hook
+git commit -m "emergency fix" --no-verify
+
+# 跳过所有 hooks
+git commit -m "emergency fix" -n
 ```
+
+### 配置文件
+
+- `.husky/pre-commit` - 提交前检查脚本
+- `.husky/commit-msg` - 提交消息检查脚本
+- `package.json` 中的 `lint-staged` 配置
