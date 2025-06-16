@@ -11,21 +11,37 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ 
-    children, 
-    className, 
-    shadow = "none", 
-    radius = "md", 
-    fullWidth = false, 
-    isPressable = false,
-    variant = "solid",
-    ...props 
-  }, ref) => {
+  (
+    {
+      children,
+      className,
+      shadow = "none",
+      radius = "md",
+      fullWidth = false,
+      isPressable = false,
+      variant = "solid",
+      ...props
+    },
+    ref
+  ) => {
+    const getVariantClasses = () => {
+      const variantStyles = {
+        solid: "bg-card border-border",
+        flat: "bg-transparent border-none shadow-none",
+        faded: "bg-card/50 border-border/50 backdrop-blur-sm",
+        bordered: "bg-transparent border-2 border-border",
+        light: "bg-card/30 border-border/30",
+      };
+
+      return variantStyles[variant] || variantStyles.solid;
+    };
+
     return (
       <div
         ref={ref}
         className={cn(
-          "border border-border bg-card text-card-foreground",
+          "border text-card-foreground",
+          getVariantClasses(),
           {
             "shadow-none": shadow === "none",
             "shadow-sm": shadow === "sm",
@@ -57,15 +73,11 @@ export interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
 export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <div
-        ref={ref}
-        className={cn("p-6", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn("p-6", className)} {...props}>
         {children}
       </div>
     );
   }
 );
 
-CardBody.displayName = "CardBody"; 
+CardBody.displayName = "CardBody";
