@@ -45,6 +45,5 @@ module.exports = {
       },
     },
   },
-  plugins: [heroui()],
-}
-
+  plugins: [],
+};
