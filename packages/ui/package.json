@@ -1,6 +1,6 @@
 {
   "name": "@socialui/react",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A modern React UI component library for social media display",
   "keywords": [
     "react",
@@ -87,7 +87,6 @@
     "@types/qrcode": "^1.5.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.18.1",
     "lucide-react": "^0.515.0",
     "qrcode": "^1.5.4"
   }
