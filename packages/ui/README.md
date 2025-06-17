@@ -57,3 +57,10 @@ const MyButton: React.FC<ButtonProps> = props => {
 ## Contributing
 
 We welcome contributions! Please see our contributing guidelines for more information.
+
+### Publish to NPMjs
+
+```
+npm run build
+npm publish --access public
+```
