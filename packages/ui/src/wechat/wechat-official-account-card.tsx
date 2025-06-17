@@ -1,5 +1,5 @@
 import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
-import { Search } from "lucide-react";
+import { Search, Check } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardBody } from "../components/ui/card";
 import { Tooltip } from "../components/ui/tooltip";
@@ -39,6 +39,7 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
     ref
   ) => {
     const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
+    const [isCopied, setIsCopied] = useState(false);
     const isVertical = orientation === "vertical";
 
     useEffect(() => {
@@ -53,6 +54,17 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
         .then(setQrCodeDataUrl)
         .catch(console.error);
     }, [qrCodeContent]);
+
+    const handleCopy = async () => {
+      try {
+        await navigator.clipboard.writeText(accountName);
+        setIsCopied(true);
+        // Reset the copied state after 2 seconds
+        setTimeout(() => setIsCopied(false), 2000);
+      } catch (error) {
+        console.error("Failed to copy text:", error);
+      }
+    };
 
     // Variant styles configuration
     const variantStyles = {
@@ -173,20 +185,32 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
               </div>
 
               {/* Search input section */}
-              <Tooltip content="点击复制 / Click to copy">
+              <Tooltip content={isCopied ? "已复制 / Copied!" : "点击复制 / Click to copy"}>
                 <Button
                   color={currentStyles.button.color}
                   variant={currentStyles.button.variant}
                   radius={radius}
                   className={cn(
-                    "w-full flex items-center gap-3 px-4 py-3 shadow-sm",
-                    currentStyles.button.className
+                    "w-full flex items-center gap-3 px-4 py-3 shadow-sm transition-all duration-300",
+                    currentStyles.button.className,
+                    isCopied && "bg-success-100/80"
                   )}
-                  startContent={<Search className="size-5 opacity-60" />}
-                  onPress={() => navigator.clipboard.writeText(accountName)}
+                  startContent={
+                    isCopied ? (
+                      <Check className="size-5 text-success-600" />
+                    ) : (
+                      <Search className="size-5 opacity-60" />
+                    )
+                  }
+                  onPress={handleCopy}
                 >
-                  <span className={cn("text-base", isVertical ? "text-center" : "flex-1")}>
-                    {accountName}
+                  <span
+                    className={cn(
+                      "text-base transition-all duration-300",
+                      isVertical ? "text-center" : "flex-1"
+                    )}
+                  >
+                    {isCopied ? "已复制!" : accountName}
                   </span>
                 </Button>
               </Tooltip>
