@@ -1,11 +1,44 @@
 {
-  "name": "@repo/ui",
-  "version": "0.0.0",
-  "private": true,
-  "exports": {
-    "./*": "./src/*.tsx"
+  "name": "@socialui/react",
+  "version": "1.0.2",
+  "description": "A modern React UI component library for social media display",
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "typescript",
+    "tailwindcss",
+    "semantic-colors"
+  ],
+  "author": "LEAPERone",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leaperone/socialui.git"
   },
+  "homepage": "https://github.com/leaperone/socialui#readme",
+  "bugs": {
+    "url": "https://github.com/leaperone/socialui/issues"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./styles": "./dist/styles/globals.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
   "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --external react --external react-dom",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --external react --external react-dom --watch",
     "lint": "eslint . --max-warnings 0",
     "lint:style": "stylelint \"src/**/*.{css,scss,less}\"",
     "lint:style:fix": "stylelint \"src/**/*.{css,scss,less}\" --fix",
@@ -16,7 +49,12 @@
     "watch:stories": "node scripts/watch-stories.js",
     "check-types": "tsc --noEmit",
     "storybook": "storybook dev -p 6006 --ci",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4",
@@ -40,6 +78,7 @@
     "postcss": "^8.5.5",
     "storybook": "^9.0.9",
     "tailwindcss": "^3.4.17",
+    "tsup": "^8.0.0",
     "typescript": "5.8.2",
     "vitest": "^3.2.3"
   },
@@ -50,8 +89,6 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.515.0",
-    "qrcode": "^1.5.4",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "qrcode": "^1.5.4"
   }
 }

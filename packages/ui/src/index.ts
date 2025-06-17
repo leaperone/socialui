@@ -1,7 +1,14 @@
 // UI Components
-export * from "./components/ui";
+// do not export UI components here
+// export * from "./components/ui";
 
 // Utilities
+// do not export utilities here
 
 // WeChat Components
-export { WeChatOfficialAccountCard as WeChatCard, type WeChatCardOfficialProps as WeChatCardProps } from "./wechat/wechat-official-account-card"; 
+export {
+  WeChatOfficialAccountCard,
+  type WeChatOfficialAccountCardProps,
+} from "./wechat/wechat-official-account-card";
+
+export { WeChatContactCard, type WeChatContactCardProps } from "./wechat/wechat-contact-card";
