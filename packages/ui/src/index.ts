@@ -12,3 +12,12 @@ export {
 } from "./wechat/wechat-official-account-card";
 
 export { WeChatContactCard, type WeChatContactCardProps } from "./wechat/wechat-contact-card";
+
+// X Components
+export { XProfileCard, type XProfileCardProps } from "./x/x-profile-card";
+
+// Bilibili Components
+export {
+  BilibiliProfileCard,
+  type BilibiliProfileCardProps,
+} from "./bilibili/bilibili-profile-card";
