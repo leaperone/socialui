@@ -62,7 +62,7 @@ export const BilibiliProfileCard = forwardRef<HTMLDivElement, BilibiliProfileCar
     // Bilibili theme variant styles configuration
     const variantStyles = {
       solid: {
-        card: "bg-gradient-to-r from-pink-500 to-blue-500 text-white",
+        card: "bg-pink-500 text-white",
         qr: "bg-white",
         decorative: { primary: "bg-white/10", secondary: "bg-white/5" },
       },
