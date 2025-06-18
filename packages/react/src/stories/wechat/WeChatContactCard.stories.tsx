@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { WeChatContactCard } from "../../wechat/wechat-contact-card";
 
 const meta = {
-  title: "UI/Wechat/WeChatContactCard",
+  title: "Wechat/WeChatContactCard",
   component: WeChatContactCard,
   parameters: {
     layout: "centered",
