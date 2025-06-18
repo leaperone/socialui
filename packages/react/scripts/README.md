@@ -11,6 +11,7 @@ pnpm generate:stories
 ```
 
 这个命令会：
+
 - 扫描 `src/` 目录下的所有 `.tsx` 文件
 - 为每个导出的组件自动生成对应的 Stories 文件
 - 如果 Stories 文件已存在，会跳过生成
@@ -22,6 +23,7 @@ pnpm watch:stories
 ```
 
 这个命令会：
+
 - 启动文件监听模式
 - 当你修改任何 `.tsx` 组件文件时，自动重新生成对应的 Stories
 - 实时同步你的组件变化到 Storybook
@@ -39,6 +41,7 @@ pnpm watch:stories
 ### 自动生成的内容
 
 每个 Stories 文件包含：
+
 - 正确的组件导入
 - Meta 配置（标题、参数、标签）
 - ArgTypes 配置（基于组件 props）
@@ -48,10 +51,16 @@ pnpm watch:stories
 ### 示例输出
 
 对于这个组件：
+
 ```tsx
-export function Button({ variant, size, children, disabled }: {
-  variant?: 'solid' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+export function Button({
+  variant,
+  size,
+  children,
+  disabled,
+}: {
+  variant?: "solid" | "outline" | "ghost";
+  size?: "sm" | "md" | "lg";
   children: React.ReactNode;
   disabled?: boolean;
 }) {
@@ -60,6 +69,7 @@ export function Button({ variant, size, children, disabled }: {
 ```
 
 会生成：
+
 ```typescript
 // Button.stories.ts
 export const Default: Story = { ... };
@@ -82,9 +92,10 @@ export const Ghost: Story = { ... };
 ## 手动调整
 
 生成的 Stories 文件可以手动调整：
+
 - 添加更多 Story 变体
 - 修改示例数据
 - 添加自定义参数和配置
 - 添加交互测试
 
-脚本不会覆盖已存在的 Stories 文件，所以你的手动修改是安全的。 
+脚本不会覆盖已存在的 Stories 文件，所以你的手动修改是安全的。
