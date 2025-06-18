@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { WeChatOfficialAccountCard } from "../../wechat/wechat-official-account-card";
 
 const meta = {
-  title: "Wechat/WeChatOfficialAccountCard",
+  title: "SocialUI/Wechat/WeChatOfficialAccountCard",
   component: WeChatOfficialAccountCard,
   parameters: {
     layout: "centered",
