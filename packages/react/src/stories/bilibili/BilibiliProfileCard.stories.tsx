@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { BilibiliProfileCard } from "../../bilibili/bilibili-profile-card";
 
 const meta: Meta<typeof BilibiliProfileCard> = {
-  title: "SocialUI/Bilibili/BilibiliProfileCard",
+  title: "China/Bilibili/BilibiliProfileCard",
   component: BilibiliProfileCard,
   parameters: {
     layout: "centered",

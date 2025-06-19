@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { XProfileCard } from "../../x/x-profile-card";
 
 const meta: Meta<typeof XProfileCard> = {
-  title: "SocialUI/X/XProfileCard",
+  title: "International/X/XProfileCard",
   component: XProfileCard,
   parameters: {
     layout: "centered",
