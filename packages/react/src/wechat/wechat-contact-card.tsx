@@ -1,5 +1,4 @@
 import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
-import { Card, CardBody } from "../components/card";
 import cn from "../utils/cn";
 import QRCode from "qrcode";
 
@@ -12,9 +11,7 @@ export interface WeChatContactCardProps {
   shadow?: "none" | "sm" | "md" | "lg";
   radius?: "none" | "sm" | "md" | "lg";
   fullWidth?: boolean;
-  isHoverable?: boolean;
-  isPressable?: boolean;
-  variant?: "solid" | "flat" | "faded" | "bordered" | "light";
+  variant?: "solid" | "flat" | "bordered";
   orientation?: "horizontal" | "vertical";
 }
 
@@ -27,7 +24,6 @@ export const WeChatContactCard = forwardRef<HTMLDivElement, WeChatContactCardPro
       shadow = "none",
       radius = "lg",
       fullWidth = false,
-      isPressable = false,
       variant = "solid",
       orientation = "horizontal",
     },
@@ -52,35 +48,44 @@ export const WeChatContactCard = forwardRef<HTMLDivElement, WeChatContactCardPro
     // Variant styles configuration
     const variantStyles = {
       solid: {
-        card: "bg-gradient-to-r from-green-500 to-green-400 text-white",
+        card: "bg-gradient-to-r from-[#07c160] to-[#34d783] text-white",
         qr: "bg-white",
         decorative: { primary: "bg-white/10", secondary: "bg-white/5" },
       },
       flat: {
-        card: "bg-green-200/50 text-foreground",
+        card: "bg-[#c5f2db]/50 text-[#058141] dark:bg-[#058141]/70 dark:text-[#c5f2db]",
         qr: "bg-white",
-        decorative: { primary: "bg-green-200/30", secondary: "bg-green-200/20" },
-      },
-      faded: {
-        card: "bg-green-50/50 text-foreground",
-        qr: "bg-white/80",
-        decorative: { primary: "bg-green-300/20", secondary: "bg-green-300/10" },
+        decorative: {
+          primary: "bg-[#c5f2db]/30 dark:bg-[#c5f2db]/20",
+          secondary: "bg-[#c5f2db]/20 dark:bg-[#c5f2db]/10",
+        },
       },
       bordered: {
-        card: "bg-background text-foreground border-2 border-green-500/70",
+        card: "bg-[#e2f9ed]/30 text-[#058141] border-2 border-[#34d783]/70 dark:bg-[#046a36]/40 dark:text-[#c5f2db] dark:border-[#34d783]/50",
         qr: "bg-white",
-        decorative: { primary: "bg-green-100/50", secondary: "bg-green-100/30" },
-      },
-      light: {
-        card: "bg-transparent text-foreground",
-        qr: "bg-white",
-        decorative: { primary: "bg-green-200/30", secondary: "bg-green-200/20" },
+        decorative: {
+          primary: "bg-[#e2f9ed]/50 dark:bg-[#c5f2db]/20",
+          secondary: "bg-[#e2f9ed]/30 dark:bg-[#c5f2db]/10",
+        },
       },
     };
 
     const currentStyles =
       variantStyles[variant as keyof typeof variantStyles] || variantStyles.solid;
-    const currentShadow = variant === "bordered" ? "none" : shadow;
+
+    const shadowClasses = {
+      none: "",
+      sm: "shadow-sm",
+      md: "shadow-md",
+      lg: "shadow-lg",
+    };
+
+    const radiusClasses = {
+      none: "rounded-none",
+      sm: "rounded-sm",
+      md: "rounded-md",
+      lg: "rounded-xl",
+    };
 
     // Layout classes based on orientation
     const layoutClasses = isVertical
@@ -91,16 +96,18 @@ export const WeChatContactCard = forwardRef<HTMLDivElement, WeChatContactCardPro
 
     const contentClasses = isVertical ? "w-full space-y-4 text-center" : "flex-1 space-y-4";
 
-    const headerClasses = isVertical ? "flex-col items-center gap-3" : "flex items-center gap-3";
-
     return (
-      <Card
+      <div
         ref={ref}
-        className={cn("relative overflow-hidden", currentStyles.card, className)}
-        shadow={currentShadow}
-        radius={radius}
-        fullWidth={fullWidth}
-        isPressable={isPressable}
+        className={cn(
+          "card relative overflow-hidden",
+          currentStyles.card,
+          shadowClasses[shadow],
+          radiusClasses[radius],
+          fullWidth ? "w-full" : "w-fit",
+          isVertical ? "w-fit" : "min-w-96",
+          className
+        )}
       >
         {/* Decorative circles - positioned inside card boundaries */}
         <div
@@ -123,17 +130,16 @@ export const WeChatContactCard = forwardRef<HTMLDivElement, WeChatContactCardPro
           </Suspense>
         </div>
 
-        <CardBody className="relative z-10">
+        <div className="card-body relative z-10">
           <div className={cn("flex", layoutClasses)}>
             {/* QR Code */}
             <div className={qrContainerClasses}>
               <div
-                className={cn("h-28 w-28 overflow-hidden p-2", currentStyles.qr, {
-                  "rounded-none": radius === "none",
-                  "rounded-sm": radius === "sm",
-                  "rounded-md": radius === "md",
-                  "rounded-xl": radius === "lg",
-                })}
+                className={cn(
+                  "h-28 w-28 overflow-hidden p-2",
+                  currentStyles.qr,
+                  radiusClasses[radius]
+                )}
               >
                 {qrCodeDataUrl ? (
                   <img
@@ -142,7 +148,12 @@ export const WeChatContactCard = forwardRef<HTMLDivElement, WeChatContactCardPro
                     className="h-full w-full object-contain"
                   />
                 ) : (
-                  <div className="h-full w-full bg-gray-100 flex items-center justify-center">
+                  <div
+                    className={cn(
+                      "h-full w-full bg-gray-100 flex items-center justify-center",
+                      radiusClasses[radius]
+                    )}
+                  >
                     <div className="text-xs text-gray-500">Loading...</div>
                   </div>
                 )}
@@ -158,8 +169,8 @@ export const WeChatContactCard = forwardRef<HTMLDivElement, WeChatContactCardPro
               </div>
             </div>
           </div>
-        </CardBody>
-      </Card>
+        </div>
+      </div>
     );
   }
 );
