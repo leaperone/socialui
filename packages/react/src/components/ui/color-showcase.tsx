@@ -172,8 +172,8 @@ export const ColorShowcase = () => {
                   <Button color={color as any} variant="flat" size="sm">
                     Flat
                   </Button>
-                  <Button color={color as any} variant="ghost" size="sm">
-                    Ghost
+                  <Button color={color as any} variant="faded" size="sm">
+                    Faded
                   </Button>
                 </div>
               </div>
@@ -262,13 +262,13 @@ export const ColorShowcase = () => {
                   </div>
                 </Card>
 
-                {/* Faded card with ghost button */}
+                {/* Faded card with bordered button */}
                 <Card color={colorName as any} variant="faded" className="p-4">
                   <div className="space-y-3">
                     <h5 className="font-medium">Faded Card</h5>
-                    <p className="text-sm opacity-80">Subtle faded style with ghost button.</p>
-                    <Button color={colorName as any} variant="ghost" size="sm" fullWidth>
-                      Ghost Action
+                    <p className="text-sm opacity-80">Subtle faded style with bordered button.</p>
+                    <Button color={colorName as any} variant="bordered" size="sm" fullWidth>
+                      Bordered Action
                     </Button>
                   </div>
                 </Card>

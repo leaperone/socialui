@@ -1,23 +1,165 @@
 import { forwardRef, ButtonHTMLAttributes, ReactNode } from "react";
 import cn from "../../utils/cn";
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
-  variant?: "solid" | "bordered" | "light" | "flat" | "faded" | "shadow" | "ghost";
-  color?: "default" | "primary" | "secondary" | "success" | "warning" | "danger" | "info";
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color"> {
+  children?: ReactNode;
+  variant?: "solid" | "bordered" | "light" | "flat" | "faded" | "shadow";
+  color?: "default" | "primary" | "secondary" | "success" | "warning" | "danger";
   size?: "sm" | "md" | "lg";
   radius?: "none" | "sm" | "md" | "lg" | "full";
+  fullWidth?: boolean;
+  isDisabled?: boolean;
+  isIconOnly?: boolean;
+  disableAnimation?: boolean;
+  isLoading?: boolean;
   startContent?: ReactNode;
   endContent?: ReactNode;
   spinner?: ReactNode;
   spinnerPlacement?: "start" | "end";
-  fullWidth?: boolean;
-  isIconOnly?: boolean;
-  isDisabled?: boolean;
-  isLoading?: boolean;
-  disableAnimation?: boolean;
   onPress?: () => void;
 }
+
+// Button variant styles function
+const getButtonClasses = ({
+  variant = "solid",
+  color = "default",
+  size = "md",
+  radius = "md",
+  fullWidth = false,
+  isDisabled = false,
+  isIconOnly = false,
+  isLoading = false,
+  disableAnimation = false,
+}: Partial<ButtonProps>) => {
+  // Base classes
+  const baseClasses = [
+    "inline-flex",
+    "items-center",
+    "justify-center",
+    "whitespace-nowrap",
+    "font-medium",
+    "transition-colors",
+    "focus-visible:outline-none",
+    "focus-visible:ring-2",
+    "focus-visible:ring-ring",
+    "focus-visible:ring-offset-2",
+    "appearance-none",
+    "select-none",
+    "box-border",
+    "outline-none",
+    "tap-highlight-transparent",
+  ];
+
+  // Size classes
+  const sizeClasses = {
+    sm: isIconOnly ? "h-8 w-8 min-w-8" : "h-8 px-3 text-tiny gap-2",
+    md: isIconOnly ? "h-10 w-10 min-w-10" : "h-10 px-4 text-small gap-2",
+    lg: isIconOnly ? "h-12 w-12 min-w-12" : "h-12 px-6 text-medium gap-3",
+  };
+
+  // Radius classes
+  const radiusClasses = {
+    none: "rounded-none",
+    sm: "rounded-small",
+    md: "rounded-medium",
+    lg: "rounded-large",
+    full: "rounded-full",
+  };
+
+  // Variant and color combination classes
+  const getVariantColorClasses = () => {
+    const combinations = {
+      solid: {
+        default: "bg-default text-default-foreground hover:bg-default/90",
+        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+        secondary:
+          "bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700",
+        success: "bg-success text-success-foreground hover:bg-success/90",
+        warning: "bg-warning text-warning-foreground hover:bg-warning/90",
+        danger: "bg-danger text-danger-foreground hover:bg-danger/90",
+      },
+      bordered: {
+        default: "border-medium border-default bg-transparent text-default hover:bg-default/10",
+        primary: "border-medium border-primary bg-transparent text-primary hover:bg-primary/10",
+        secondary:
+          "border-medium border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800",
+        success: "border-medium border-success bg-transparent text-success hover:bg-success/10",
+        warning: "border-medium border-warning bg-transparent text-warning hover:bg-warning/10",
+        danger: "border-medium border-danger bg-transparent text-danger hover:bg-danger/10",
+      },
+      light: {
+        default: "bg-transparent text-default hover:bg-default/40",
+        primary: "bg-transparent text-primary hover:bg-primary/20",
+        secondary:
+          "bg-transparent text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800",
+        success: "bg-transparent text-success hover:bg-success/20",
+        warning: "bg-transparent text-warning hover:bg-warning/20",
+        danger: "bg-transparent text-danger hover:bg-danger/20",
+      },
+      flat: {
+        default: "bg-default/20 text-default hover:bg-default/30",
+        primary: "bg-primary/20 text-primary hover:bg-primary/30",
+        secondary:
+          "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600",
+        success: "bg-success/20 text-success hover:bg-success/30",
+        warning: "bg-warning/20 text-warning hover:bg-warning/30",
+        danger: "bg-danger/20 text-danger hover:bg-danger/30",
+      },
+      faded: {
+        default: "border-medium bg-default/20 border-default/20 text-default hover:bg-default/30",
+        primary: "border-medium bg-primary/20 border-primary/20 text-primary hover:bg-primary/30",
+        secondary:
+          "border-medium bg-gray-200 border-gray-300 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600",
+        success: "border-medium bg-success/20 border-success/20 text-success hover:bg-success/30",
+        warning: "border-medium bg-warning/20 border-warning/20 text-warning hover:bg-warning/30",
+        danger: "border-medium bg-danger/20 border-danger/20 text-danger hover:bg-danger/30",
+      },
+      shadow: {
+        default:
+          "shadow-lg shadow-default/50 bg-default text-default-foreground hover:bg-default/90",
+        primary:
+          "shadow-lg shadow-primary/50 bg-primary text-primary-foreground hover:bg-primary/90",
+        secondary:
+          "shadow-lg shadow-gray-300/50 bg-gray-100 text-gray-900 hover:bg-gray-200 dark:shadow-gray-700/50 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700",
+        success:
+          "shadow-lg shadow-success/50 bg-success text-success-foreground hover:bg-success/90",
+        warning:
+          "shadow-lg shadow-warning/50 bg-warning text-warning-foreground hover:bg-warning/90",
+        danger: "shadow-lg shadow-danger/50 bg-danger text-danger-foreground hover:bg-danger/90",
+      },
+    };
+
+    return combinations[variant]?.[color] || combinations.solid.default;
+  };
+
+  // State classes
+  const stateClasses = [];
+  if (isDisabled || isLoading) {
+    stateClasses.push("opacity-disabled", "pointer-events-none");
+  }
+  if (fullWidth) {
+    stateClasses.push("w-full");
+  }
+  if (!disableAnimation) {
+    stateClasses.push("transition-all", "duration-200");
+  }
+  if (isLoading) {
+    stateClasses.push("cursor-default");
+  }
+
+  return cn(
+    baseClasses,
+    sizeClasses[size],
+    radiusClasses[radius],
+    getVariantColorClasses(),
+    stateClasses
+  );
+};
+
+// Simple button group function
+const getButtonGroupClasses = ({ fullWidth = false }: { fullWidth?: boolean } = {}) => {
+  return cn("inline-flex", "items-center", "justify-center", "h-auto", fullWidth && "w-full");
+};
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -55,113 +197,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       }
     };
 
-    const getVariantClasses = () => {
-      const colorClasses = {
-        default: {
-          solid: "bg-default text-default-foreground hover:bg-default/90 focus:bg-default/80",
-          bordered: "border-2 border-default text-default hover:bg-default/10 focus:bg-default/10",
-          light: "bg-default/20 text-default hover:bg-default/30 focus:bg-default/30",
-          flat: "bg-default/10 text-default hover:bg-default/20 focus:bg-default/20",
-          faded:
-            "bg-default/20 text-default hover:bg-default/30 focus:bg-default/30 border border-default/20",
-          shadow:
-            "bg-default text-default-foreground shadow-lg hover:bg-default/90 focus:bg-default/80 shadow-default/25",
-          ghost: "text-default hover:bg-default/10 focus:bg-default/10",
-        },
-        primary: {
-          solid: "bg-primary text-primary-foreground hover:bg-primary/90 focus:bg-primary/80",
-          bordered: "border-2 border-primary text-primary hover:bg-primary/10 focus:bg-primary/10",
-          light: "bg-primary/20 text-primary hover:bg-primary/30 focus:bg-primary/30",
-          flat: "bg-primary/10 text-primary hover:bg-primary/20 focus:bg-primary/20",
-          faded:
-            "bg-primary/20 text-primary hover:bg-primary/30 focus:bg-primary/30 border border-primary/20",
-          shadow:
-            "bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 focus:bg-primary/80 shadow-primary/25",
-          ghost: "text-primary hover:bg-primary/10 focus:bg-primary/10",
-        },
-        secondary: {
-          solid:
-            "bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:bg-secondary/80",
-          bordered:
-            "border-2 border-secondary text-secondary hover:bg-secondary/10 focus:bg-secondary/10",
-          light: "bg-secondary/20 text-secondary hover:bg-secondary/30 focus:bg-secondary/30",
-          flat: "bg-secondary/10 text-secondary hover:bg-secondary/20 focus:bg-secondary/20",
-          faded:
-            "bg-secondary/20 text-secondary hover:bg-secondary/30 focus:bg-secondary/30 border border-secondary/20",
-          shadow:
-            "bg-secondary text-secondary-foreground shadow-lg hover:bg-secondary/90 focus:bg-secondary/80 shadow-secondary/25",
-          ghost: "text-secondary hover:bg-secondary/10 focus:bg-secondary/10",
-        },
-        success: {
-          solid: "bg-success text-success-foreground hover:bg-success/90 focus:bg-success/80",
-          bordered: "border-2 border-success text-success hover:bg-success/10 focus:bg-success/10",
-          light: "bg-success/20 text-success hover:bg-success/30 focus:bg-success/30",
-          flat: "bg-success/10 text-success hover:bg-success/20 focus:bg-success/20",
-          faded:
-            "bg-success/20 text-success hover:bg-success/30 focus:bg-success/30 border border-success/20",
-          shadow:
-            "bg-success text-success-foreground shadow-lg hover:bg-success/90 focus:bg-success/80 shadow-success/25",
-          ghost: "text-success hover:bg-success/10 focus:bg-success/10",
-        },
-        warning: {
-          solid: "bg-warning text-warning-foreground hover:bg-warning/90 focus:bg-warning/80",
-          bordered: "border-2 border-warning text-warning hover:bg-warning/10 focus:bg-warning/10",
-          light: "bg-warning/20 text-warning hover:bg-warning/30 focus:bg-warning/30",
-          flat: "bg-warning/10 text-warning hover:bg-warning/20 focus:bg-warning/20",
-          faded:
-            "bg-warning/20 text-warning hover:bg-warning/30 focus:bg-warning/30 border border-warning/20",
-          shadow:
-            "bg-warning text-warning-foreground shadow-lg hover:bg-warning/90 focus:bg-warning/80 shadow-warning/25",
-          ghost: "text-warning hover:bg-warning/10 focus:bg-warning/10",
-        },
-        danger: {
-          solid: "bg-danger text-danger-foreground hover:bg-danger/90 focus:bg-danger/80",
-          bordered: "border-2 border-danger text-danger hover:bg-danger/10 focus:bg-danger/10",
-          light: "bg-danger/20 text-danger hover:bg-danger/30 focus:bg-danger/30",
-          flat: "bg-danger/10 text-danger hover:bg-danger/20 focus:bg-danger/20",
-          faded:
-            "bg-danger/20 text-danger hover:bg-danger/30 focus:bg-danger/30 border border-danger/20",
-          shadow:
-            "bg-danger text-danger-foreground shadow-lg hover:bg-danger/90 focus:bg-danger/80 shadow-danger/25",
-          ghost: "text-danger hover:bg-danger/10 focus:bg-danger/10",
-        },
-        info: {
-          solid: "bg-info text-info-foreground hover:bg-info/90 focus:bg-info/80",
-          bordered: "border-2 border-info text-info hover:bg-info/10 focus:bg-info/10",
-          light: "bg-info/20 text-info hover:bg-info/30 focus:bg-info/30",
-          flat: "bg-info/10 text-info hover:bg-info/20 focus:bg-info/20",
-          faded: "bg-info/20 text-info hover:bg-info/30 focus:bg-info/30 border border-info/20",
-          shadow:
-            "bg-info text-info-foreground shadow-lg hover:bg-info/90 focus:bg-info/80 shadow-info/25",
-          ghost: "text-info hover:bg-info/10 focus:bg-info/10",
-        },
-      };
-
-      return colorClasses[color][variant];
-    };
-
-    const getSizeClasses = () => {
-      const sizeClasses = {
-        sm: isIconOnly ? "h-8 w-8 min-w-8" : "h-8 px-3 text-xs",
-        md: isIconOnly ? "h-10 w-10 min-w-10" : "h-10 px-4 text-sm",
-        lg: isIconOnly ? "h-12 w-12 min-w-12" : "h-12 px-6 text-base",
-      };
-
-      return sizeClasses[size];
-    };
-
-    const getRadiusClasses = () => {
-      const radiusClasses = {
-        none: "rounded-none",
-        sm: "rounded-sm",
-        md: "rounded-md",
-        lg: "rounded-lg",
-        full: "rounded-full",
-      };
-
-      return radiusClasses[radius];
-    };
-
     const defaultSpinner = (
       <svg
         className="animate-spin h-4 w-4"
@@ -189,13 +224,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-          !disableAnimation && "transition-all duration-200",
-          getVariantClasses(),
-          getSizeClasses(),
-          getRadiusClasses(),
-          fullWidth && "w-full",
-          (isDisabled || isLoading) && "pointer-events-none opacity-50",
+          getButtonClasses({
+            variant,
+            color,
+            size,
+            radius,
+            fullWidth,
+            isDisabled: isDisabled || disabled,
+            isIconOnly,
+            isLoading,
+            disableAnimation,
+          }),
           className
         )}
         onClick={handleClick}
@@ -225,3 +264,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = "Button";
+
+// Export utility functions for external use
+export const button = getButtonClasses;
+export const buttonGroup = getButtonGroupClasses;

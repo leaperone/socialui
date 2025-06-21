@@ -61,18 +61,19 @@
     --primary-foreground: 210 40% 98%;
 
     /* Secondary color scale */
-    --secondary-50: 0 0% 98%;
-    --secondary-100: 0 0% 96%;
-    --secondary-200: 0 0% 89%;
-    --secondary-300: 0 0% 83%;
-    --secondary-400: 0 0% 63%;
-    --secondary-500: 0 0% 44%;
-    --secondary-600: 0 0% 32%;
-    --secondary-700: 0 0% 25%;
-    --secondary-800: 0 0% 15%;
-    --secondary-900: 0 0% 9%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
+    --secondary-50: 250 100% 98%;
+    --secondary-100: 250 95% 96%;
+    --secondary-200: 250 90% 89%;
+    --secondary-300: 250 85% 83%;
+    --secondary-400: 250 80% 63%;
+    --secondary-500: 250 75% 44%;
+    --secondary-600: 250 70% 32%;
+    --secondary-700: 250 65% 25%;
+    --secondary-800: 250 60% 15%;
+    --secondary-900: 250 55% 9%;
+    --secondary: 250 70% 32%;
+    --secondary-foreground: 250 100% 98%;
+    /* End of Selection */
 
     /* Success color scale */
     --success-50: 138 76% 97%;

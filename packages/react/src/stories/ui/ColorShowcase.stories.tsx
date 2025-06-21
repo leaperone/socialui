@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ColorShowcase } from "../components/ui/color-showcase";
+import { ColorShowcase } from "../../components/ui/color-showcase";
 
 const meta = {
-  title: "Others/ColorShowcase",
+  title: "UI/ColorShowcase",
   component: ColorShowcase,
   parameters: {
     layout: "centered",
