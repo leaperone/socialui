@@ -11,7 +11,7 @@ const meta: Meta<typeof XProfileCard> = {
   argTypes: {
     variant: {
       control: { type: "select" },
-      options: ["solid", "flat", "faded", "bordered", "light"],
+      options: ["solid", "flat", "bordered"],
     },
     orientation: {
       control: { type: "select" },
@@ -75,31 +75,6 @@ export const Bordered: Story = {
     qrCodeContent: "https://x.com/github",
     profileUrl: "https://x.com/github",
     variant: "bordered",
-  },
-};
-
-export const Light: Story = {
-  args: {
-    username: "nextjs",
-    displayName: "Next.js",
-    followers: "89.3K",
-    following: "42",
-    qrCodeContent: "https://x.com/nextjs",
-    profileUrl: "https://x.com/nextjs",
-    variant: "light",
-  },
-};
-
-export const Pressable: Story = {
-  args: {
-    username: "reactjs",
-    displayName: "React",
-    followers: "718.2K",
-    following: "267",
-    qrCodeContent: "https://x.com/reactjs",
-    profileUrl: "https://x.com/reactjs",
-    isPressable: true,
-    shadow: "md",
   },
 };
 

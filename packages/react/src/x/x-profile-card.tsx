@@ -1,5 +1,4 @@
 import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
-import { Card, CardBody } from "../components/card";
 import cn from "../utils/cn";
 import QRCode from "qrcode";
 
@@ -16,9 +15,7 @@ export interface XProfileCardProps {
   shadow?: "none" | "sm" | "md" | "lg";
   radius?: "none" | "sm" | "md" | "lg";
   fullWidth?: boolean;
-  isHoverable?: boolean;
-  isPressable?: boolean;
-  variant?: "solid" | "flat" | "faded" | "bordered" | "light";
+  variant?: "solid" | "flat" | "bordered";
   orientation?: "horizontal" | "vertical";
 }
 
@@ -35,7 +32,6 @@ export const XProfileCard = forwardRef<HTMLDivElement, XProfileCardProps>(
       shadow = "none",
       radius = "lg",
       fullWidth = false,
-      isPressable = false,
       variant = "solid",
       orientation = "horizontal",
     },
@@ -65,30 +61,41 @@ export const XProfileCard = forwardRef<HTMLDivElement, XProfileCardProps>(
         decorative: { primary: "bg-white/10", secondary: "bg-white/5" },
       },
       flat: {
-        card: "bg-gray-200/50 text-foreground",
+        card: "bg-gray-100/80 text-gray-900 dark:bg-gray-800/80 dark:text-gray-100",
         qr: "bg-white",
-        decorative: { primary: "bg-gray-200/30", secondary: "bg-gray-200/20" },
-      },
-      faded: {
-        card: "bg-gray-50/50 text-foreground",
-        qr: "bg-white/80",
-        decorative: { primary: "bg-gray-300/20", secondary: "bg-gray-300/10" },
+        decorative: {
+          primary: "bg-gray-300/30 dark:bg-gray-600/30",
+          secondary: "bg-gray-300/20 dark:bg-gray-600/20",
+        },
       },
       bordered: {
-        card: "bg-background text-foreground border-2 border-black/70",
+        card: "bg-transparent text-gray-900 border-2 border-gray-200 dark:text-gray-100 dark:border-gray-700",
         qr: "bg-white",
-        decorative: { primary: "bg-gray-100/50", secondary: "bg-gray-100/30" },
-      },
-      light: {
-        card: "bg-transparent text-foreground",
-        qr: "bg-white",
-        decorative: { primary: "bg-gray-200/30", secondary: "bg-gray-200/20" },
+        decorative: {
+          primary: "bg-gray-200/50 dark:bg-gray-700/50",
+          secondary: "bg-gray-200/30 dark:bg-gray-700/30",
+        },
       },
     };
 
     const currentStyles =
       variantStyles[variant as keyof typeof variantStyles] || variantStyles.solid;
-    const currentShadow = variant === "bordered" ? "none" : shadow;
+
+    // Shadow classes mapping
+    const shadowClasses = {
+      none: "",
+      sm: "shadow-sm",
+      md: "shadow-md",
+      lg: "shadow-lg",
+    };
+
+    // Radius classes mapping
+    const radiusClasses = {
+      none: "rounded-none",
+      sm: "rounded-sm",
+      md: "rounded-md",
+      lg: "rounded-xl",
+    };
 
     // Layout classes based on orientation
     const layoutClasses = isVertical
@@ -100,13 +107,17 @@ export const XProfileCard = forwardRef<HTMLDivElement, XProfileCardProps>(
     const contentClasses = isVertical ? "w-full space-y-4 text-center" : "flex-1 space-y-4";
 
     return (
-      <Card
+      <div
         ref={ref}
-        className={cn("relative overflow-hidden", currentStyles.card, className)}
-        shadow={currentShadow}
-        radius={radius}
-        fullWidth={fullWidth}
-        isPressable={isPressable}
+        className={cn(
+          "card relative overflow-hidden",
+          currentStyles.card,
+          shadowClasses[shadow],
+          radiusClasses[radius],
+          fullWidth ? "w-full" : "w-fit",
+          isVertical ? "w-fit" : "min-w-96",
+          className
+        )}
       >
         {/* Decorative circles - positioned inside card boundaries */}
         <div
@@ -129,17 +140,16 @@ export const XProfileCard = forwardRef<HTMLDivElement, XProfileCardProps>(
           </Suspense>
         </div>
 
-        <CardBody className="relative z-10">
+        <div className="card-body relative z-10">
           <div className={cn("flex", layoutClasses)}>
             {/* QR Code */}
             <div className={qrContainerClasses}>
               <div
-                className={cn("h-28 w-28 overflow-hidden p-2", currentStyles.qr, {
-                  "rounded-none": radius === "none",
-                  "rounded-sm": radius === "sm",
-                  "rounded-md": radius === "md",
-                  "rounded-xl": radius === "lg",
-                })}
+                className={cn(
+                  "h-28 w-28 overflow-hidden p-2",
+                  currentStyles.qr,
+                  radiusClasses[radius]
+                )}
               >
                 {qrCodeDataUrl ? (
                   <img
@@ -148,7 +158,12 @@ export const XProfileCard = forwardRef<HTMLDivElement, XProfileCardProps>(
                     className="h-full w-full object-contain"
                   />
                 ) : (
-                  <div className="h-full w-full bg-gray-100 flex items-center justify-center">
+                  <div
+                    className={cn(
+                      "h-full w-full bg-gray-100 flex items-center justify-center",
+                      radiusClasses[radius]
+                    )}
+                  >
                     <div className="text-xs text-gray-500">Loading...</div>
                   </div>
                 )}
@@ -201,8 +216,8 @@ export const XProfileCard = forwardRef<HTMLDivElement, XProfileCardProps>(
               </div>
             </div>
           </div>
-        </CardBody>
-      </Card>
+        </div>
+      </div>
     );
   }
 );
