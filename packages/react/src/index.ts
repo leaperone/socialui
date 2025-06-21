@@ -21,3 +21,6 @@ export {
   BilibiliProfileCard,
   type BilibiliProfileCardProps,
 } from "./bilibili/bilibili-profile-card";
+
+// Weibo Components
+export { WeiboProfileCard, type WeiboProfileCardProps } from "./weibo/weibo-profile-card";
