@@ -1,5 +1,5 @@
 import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
-import { Card, CardBody } from "../components/ui/card";
+import { Card, CardBody } from "../components/card";
 import cn from "../utils/cn";
 import QRCode from "qrcode";
 

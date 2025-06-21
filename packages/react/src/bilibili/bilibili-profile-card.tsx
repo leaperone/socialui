@@ -1,5 +1,4 @@
 import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
-import { Card, CardBody } from "../components/ui/card";
 import cn from "../utils/cn";
 import QRCode from "qrcode";
 
@@ -9,17 +8,12 @@ export interface BilibiliProfileCardProps {
   qrCodeContent?: string;
   uid?: string;
   username?: string;
-  fans?: string;
-  following?: string;
-  videos?: string;
-  profileUrl?: string;
   className?: string;
   shadow?: "none" | "sm" | "md" | "lg";
   radius?: "none" | "sm" | "md" | "lg";
   fullWidth?: boolean;
   isHoverable?: boolean;
-  isPressable?: boolean;
-  variant?: "solid" | "flat" | "faded" | "bordered" | "light";
+  variant?: "solid" | "flat" | "bordered";
   orientation?: "horizontal" | "vertical";
 }
 
@@ -30,14 +24,9 @@ export const BilibiliProfileCard = forwardRef<HTMLDivElement, BilibiliProfileCar
       qrCodeContent = "https://space.bilibili.com/example",
       uid = "123456789",
       username = "用户名",
-      fans,
-      following,
-      videos,
-      profileUrl,
       shadow = "none",
       radius = "lg",
       fullWidth = false,
-      isPressable = false,
       variant = "solid",
       orientation = "horizontal",
     },
@@ -59,38 +48,49 @@ export const BilibiliProfileCard = forwardRef<HTMLDivElement, BilibiliProfileCar
         .catch(console.error);
     }, [qrCodeContent]);
 
-    // Bilibili theme variant styles configuration
+    // Bilibili theme variant styles configuration with #FF6699
     const variantStyles = {
       solid: {
-        card: "bg-pink-500 text-white",
+        card: "bg-[#FF6699] text-white",
         qr: "bg-white",
         decorative: { primary: "bg-white/10", secondary: "bg-white/5" },
       },
       flat: {
-        card: "bg-pink-200/50 text-foreground",
+        card: "bg-[#FF6699]/20 text-[#992651] dark:bg-[#66223B]/70 dark:text-[#FFA8C6]",
         qr: "bg-white",
-        decorative: { primary: "bg-pink-200/30", secondary: "bg-pink-200/20" },
-      },
-      faded: {
-        card: "bg-pink-50/50 text-foreground",
-        qr: "bg-white/80",
-        decorative: { primary: "bg-pink-300/20", secondary: "bg-pink-300/10" },
+        decorative: {
+          primary: "bg-[#FF6699]/30 dark:bg-[#FFA8C6]/20",
+          secondary: "bg-[#FF6699]/20 dark:bg-[#FFA8C6]/10",
+        },
       },
       bordered: {
-        card: "bg-background text-foreground border-2 border-pink-500/70",
+        card: "bg-[#FF6699]/10 text-[#992651] border-2 border-[#FF6699]/70 dark:bg-[#66223B]/40 dark:text-[#FFA8C6] dark:border-[#FF6699]/50",
         qr: "bg-white",
-        decorative: { primary: "bg-pink-100/50", secondary: "bg-pink-100/30" },
-      },
-      light: {
-        card: "bg-transparent text-foreground",
-        qr: "bg-white",
-        decorative: { primary: "bg-pink-200/30", secondary: "bg-pink-200/20" },
+        decorative: {
+          primary: "bg-[#FF6699]/20 dark:bg-[#FFA8C6]/20",
+          secondary: "bg-[#FF6699]/15 dark:bg-[#FFA8C6]/10",
+        },
       },
     };
 
     const currentStyles =
       variantStyles[variant as keyof typeof variantStyles] || variantStyles.solid;
-    const currentShadow = variant === "bordered" ? "none" : shadow;
+
+    // Shadow classes mapping
+    const shadowClasses = {
+      none: "",
+      sm: "shadow-sm",
+      md: "shadow-md",
+      lg: "shadow-lg",
+    };
+
+    // Radius classes mapping
+    const radiusClasses = {
+      none: "rounded-none",
+      sm: "rounded-sm",
+      md: "rounded-md",
+      lg: "rounded-xl",
+    };
 
     // Layout classes based on orientation
     const layoutClasses = isVertical
@@ -102,13 +102,17 @@ export const BilibiliProfileCard = forwardRef<HTMLDivElement, BilibiliProfileCar
     const contentClasses = isVertical ? "w-full space-y-4 text-center" : "flex-1 space-y-4";
 
     return (
-      <Card
+      <div
         ref={ref}
-        className={cn("relative overflow-hidden", currentStyles.card, className)}
-        shadow={currentShadow}
-        radius={radius}
-        fullWidth={fullWidth}
-        isPressable={isPressable}
+        className={cn(
+          "card relative overflow-hidden",
+          currentStyles.card,
+          shadowClasses[shadow],
+          radiusClasses[radius],
+          fullWidth ? "w-full" : "w-fit",
+          isVertical ? "w-fit" : "min-w-96",
+          className
+        )}
       >
         {/* Decorative circles - positioned inside card boundaries */}
         <div
@@ -131,17 +135,20 @@ export const BilibiliProfileCard = forwardRef<HTMLDivElement, BilibiliProfileCar
           </Suspense>
         </div>
 
-        <CardBody className="relative z-10">
+        <div className="card-body relative z-10">
           <div className={cn("flex", layoutClasses)}>
             {/* QR Code */}
-            <div className={qrContainerClasses}>
-              <div
-                className={cn("h-28 w-28 overflow-hidden p-2", currentStyles.qr, {
-                  "rounded-none": radius === "none",
-                  "rounded-sm": radius === "sm",
-                  "rounded-md": radius === "md",
-                  "rounded-xl": radius === "lg",
-                })}
+            <div className={cn(qrContainerClasses)}>
+              <button
+                onClick={() =>
+                  window.open(`https://space.bilibili.com/${uid}`, "_blank", "noopener,noreferrer")
+                }
+                className={cn(
+                  "h-28 w-28 overflow-hidden p-2",
+                  currentStyles.qr,
+                  radiusClasses[radius]
+                )}
+                title="点击跳转到个人空间"
               >
                 {qrCodeDataUrl ? (
                   <img
@@ -150,11 +157,16 @@ export const BilibiliProfileCard = forwardRef<HTMLDivElement, BilibiliProfileCar
                     className="h-full w-full object-contain"
                   />
                 ) : (
-                  <div className="h-full w-full bg-gray-100 flex items-center justify-center">
+                  <div
+                    className={cn(
+                      "h-full w-full bg-gray-100 flex items-center justify-center",
+                      radiusClasses[radius]
+                    )}
+                  >
                     <div className="text-xs text-gray-500">Loading...</div>
                   </div>
                 )}
-              </div>
+              </button>
             </div>
 
             {/* Content: user info */}
@@ -163,54 +175,25 @@ export const BilibiliProfileCard = forwardRef<HTMLDivElement, BilibiliProfileCar
               <div className={cn("space-y-2", isVertical ? "text-center" : "")}>
                 <div className="space-y-1">
                   <div className="text-lg font-bold">{username}</div>
-                  <div className="text-sm opacity-70">UID: {uid}</div>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={cn(
+                        "badge badge-sm badge-dash",
+                        isVertical ? "mx-auto" : "",
+                        radiusClasses[radius]
+                      )}
+                    >
+                      UID: {uid}
+                    </div>
+                  </div>
                 </div>
 
-                {/* Stats */}
-                <div className={cn("flex gap-4 text-sm", isVertical ? "justify-center" : "")}>
-                  {following && (
-                    <div>
-                      <span className="font-medium">{following}</span>
-                      <span className="opacity-70 ml-1">关注</span>
-                    </div>
-                  )}
-                  {fans && (
-                    <div>
-                      <span className="font-medium">{fans}</span>
-                      <span className="opacity-70 ml-1">粉丝</span>
-                    </div>
-                  )}
-                  {videos && (
-                    <div>
-                      <span className="font-medium">{videos}</span>
-                      <span className="opacity-70 ml-1">视频</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="text-xs opacity-60">扫码关注我的 Bilibili</div>
-
-                {/* Profile Button */}
-                {profileUrl && (
-                  <button
-                    onClick={() => window.open(profileUrl, "_blank", "noopener,noreferrer")}
-                    className={cn(
-                      "mt-3 px-4 w-full py-2 rounded-full text-sm font-medium transition-all duration-200",
-                      "hover:scale-105 active:scale-95",
-                      variant === "solid"
-                        ? "bg-white text-pink-600 hover:bg-gray-100"
-                        : "bg-pink-500 text-white hover:bg-pink-600",
-                      "border border-current/20"
-                    )}
-                  >
-                    查看主页
-                  </button>
-                )}
+                <div className="text-sm opacity-70 font-semibold">扫码关注我的 Bilibili</div>
               </div>
             </div>
           </div>
-        </CardBody>
-      </Card>
+        </div>
+      </div>
     );
   }
 );

@@ -1,8 +1,8 @@
 import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
 import { Search, Check } from "lucide-react";
-import { Button } from "../components/ui/button";
-import { Card, CardBody } from "../components/ui/card";
-import { Tooltip } from "../components/ui/tooltip";
+import { Button } from "../components/button";
+import { Card, CardBody } from "../components/card";
+import { Tooltip } from "../components/tooltip";
 import cn from "../utils/cn";
 import QRCode from "qrcode";
 

@@ -1,6 +1,6 @@
 import { Card, CardBody } from "./card";
 import { Button } from "./button";
-import cn from "../../utils/cn";
+import cn from "../utils/cn";
 
 const ColorScale = ({ colorName, className }: { colorName: string; className?: string }) => {
   const scales = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];

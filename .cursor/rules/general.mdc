@@ -9,4 +9,6 @@ Please try all your best to help user to make this repo perfect.
 
 Help user do all the publish work to npm.
 
-Always export the social display components in packages/ui/src
+Always export the social display components in packages/react
+
+use daisyUI for UI
