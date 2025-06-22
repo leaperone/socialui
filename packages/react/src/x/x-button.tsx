@@ -17,7 +17,7 @@ export function XButton({ username, size = "sm", variant = "solid" }: XButtonPro
   };
 
   const variantClasses = {
-    solid: "",
+    solid: "bg-black text-white",
     flat: "btn-ghost text-black",
     bordered: "btn-outline text-black",
   };

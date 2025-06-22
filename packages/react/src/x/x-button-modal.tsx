@@ -30,10 +30,16 @@ export function XButtonModal({
 }: XButtonModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const sizeClasses = {
-    sm: "max-w-sm",
-    md: "max-w-md",
-    lg: "max-w-lg",
+  const buttonSizeClasses = {
+    sm: "btn-sm",
+    md: "btn",
+    lg: "btn-lg",
+  };
+
+  const variantClasses = {
+    solid: "bg-black text-white",
+    flat: "btn-ghost text-black",
+    bordered: "btn-outline text-black",
   };
 
   const handleClose = () => {
@@ -45,13 +51,18 @@ export function XButtonModal({
   return (
     <>
       <button
-        className={cn("btn", shape === "square" ? "btn-square" : "btn-circle")}
+        className={cn(
+          "btn",
+          shape === "square" ? "btn-square" : "btn-circle",
+          variantClasses[variant],
+          buttonSizeClasses[size]
+        )}
         onClick={() => openXButtonModal(id)}
       >
         <XIcon className="h-4 w-4" />
       </button>
       <dialog id={id} className="modal" ref={dialogRef}>
-        <div className={cn("modal-box p-0 ", sizeClasses[size])}>
+        <div className={cn("modal-box p-0")}>
           <XProfileCard
             username={username}
             displayName={displayName || `@${username}`}

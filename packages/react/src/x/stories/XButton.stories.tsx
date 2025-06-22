@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { XButton } from "../x-button";
 
 const meta: Meta<typeof XButton> = {
-  title: "X/XButton",
+  title: "International/X/XButton",
   component: XButton,
   parameters: {
     layout: "centered",
