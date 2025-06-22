@@ -1,14 +1,14 @@
 {
-  "name": "dev-socialui",
+  "name": "dev-ui2someone",
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "workspaceFolder": "/root/socialui",
+  "workspaceFolder": "/root/ui2someone",
   "shutdownAction": "stopContainer",
   "remoteUser": "root",
   "runArgs": ["--network=host"],
   "forwardPorts": [6006],
-  "postCreateCommand": "git clone git@github.com:leaperone/socialui.git .",
+  "postCreateCommand": "git clone git@github.com:leaperone/ui2someone.git .",
   "postStartCommand": "sh .devcontainer/init.sh",
   "customizations": {
     "vscode": {
