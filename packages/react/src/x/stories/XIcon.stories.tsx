@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { XIcon } from "../../x/logo/x";
+import { XIcon } from "../logo/x";
 
 const meta: Meta<typeof XIcon> = {
-  title: "Logos/XIcon",
+  title: "International/X/Logo/XIcon",
   component: XIcon,
   parameters: {
     layout: "centered",

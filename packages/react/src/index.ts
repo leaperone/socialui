@@ -27,6 +27,13 @@ export {
 
 // X Components
 export { XProfileCard, type XProfileCardProps } from "./x/x-profile-card";
+export { XButton, type XButtonProps } from "./x/x-button";
+export {
+  XButtonModal,
+  openXButtonModal,
+  closeXButtonModal,
+  type XButtonModalProps,
+} from "./x/x-button-modal";
 export { XIcon, type XIconProps } from "./logo/x";
 
 // Bilibili Components

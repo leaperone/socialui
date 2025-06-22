@@ -11,6 +11,22 @@ Help user do all the publish work to npm.
 
 Always export the social display components in packages/react
 
-use daisyUI for UI
+- use daisyUI for UI
+- no `import { type ComponentProps } from "react";`
 
-no `import { type ComponentProps } from "react";`
+## Iconify 
+```
+import { lazy, Suspense } from "react";
+const Icon = lazy(() => import("@iconify/react").then(mod => ({ default: mod.Icon })));
+
+...
+
+<Suspense fallback={<div className="h-8 w-8" />}>
+  <IconifyIcon icon="simple-icons:jike" className="h-8 w-8 opacity-80" />
+</Suspense>
+```
+
+## Storybook
+```
+import type { Meta, StoryObj } from "@storybook/react-vite";
+```

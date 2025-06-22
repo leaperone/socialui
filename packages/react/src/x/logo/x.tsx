@@ -1,5 +1,8 @@
-import cn from "../utils/cn";
-import { Icon } from "@iconify/react";
+import { lazy } from "react";
+import cn from "../../utils/cn";
+// import { Icon } from "@iconify/react";
+
+const Icon = lazy(() => import("@iconify/react").then(mod => ({ default: mod.Icon })));
 
 export interface XIconProps {
   className?: string;
@@ -9,7 +12,7 @@ export interface XIconProps {
 
 export function XIcon({ className, size = 24, color }: XIconProps) {
   // Dynamic import to avoid module resolution issues
-  //   const Icon = require("@iconify/react").Icon;
+  // const Icon = require("@iconify/react").Icon;
 
   return (
     <Icon

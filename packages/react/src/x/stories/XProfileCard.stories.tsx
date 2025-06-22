@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { XProfileCard } from "../../x/x-profile-card";
+import { XProfileCard } from "../x-profile-card";
 
 const meta: Meta<typeof XProfileCard> = {
   title: "International/X/XProfileCard",
