@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { WeChatContactCard } from "../../wechat/wechat-contact-card";
+import { WeChatContactCard } from "../wechat-contact-card";
 
 const meta = {
   title: "China/Wechat/WeChatContactCard",
@@ -21,7 +21,6 @@ const meta = {
       options: ["none", "sm", "md", "lg"],
     },
     fullWidth: { control: "boolean" },
-    isHoverable: { control: "boolean" },
     variant: {
       control: { type: "select" },
       options: ["solid", "flat", "bordered"],
@@ -64,14 +63,6 @@ export const Bordered: Story = {
   args: {
     nickname: "微信用户",
     variant: "bordered",
-    shadow: "md",
-  },
-};
-
-export const Hoverable: Story = {
-  args: {
-    nickname: "微信用户",
-    isHoverable: true,
     shadow: "md",
   },
 };

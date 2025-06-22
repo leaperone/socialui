@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4",
+    "@iconify/react": "^6.0.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@storybook/addon-a11y": "^9.0.9",
@@ -84,7 +85,6 @@
     "vitest": "^3.2.3"
   },
   "dependencies": {
-    "@iconify/react": "^6.0.0",
     "@types/qrcode": "^1.5.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

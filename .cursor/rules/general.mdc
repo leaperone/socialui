@@ -3,7 +3,7 @@ description:
 globs: 
 alwaysApply: true
 ---
-This is a react UI library.
+This is a react UI library call ui2someone. It is for user can share their social media link and qrcode via react components.
 
 Please try all your best to help user to make this repo perfect.
 
@@ -12,3 +12,5 @@ Help user do all the publish work to npm.
 Always export the social display components in packages/react
 
 use daisyUI for UI
+
+no `import { type ComponentProps } from "react";`

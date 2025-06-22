@@ -160,9 +160,6 @@ importers:
 
   packages/react:
     dependencies:
-      '@iconify/react':
-        specifier: ^6.0.0
-        version: 6.0.0(react@19.1.0)
       '@types/qrcode':
         specifier: ^1.5.5
         version: 1.5.5
@@ -188,6 +185,9 @@ importers:
       '@chromatic-com/storybook':
         specifier: ^4
         version: 4.0.0(storybook@9.0.9(@testing-library/dom@10.4.0)(prettier@3.5.3))
+      '@iconify/react':
+        specifier: ^6.0.0
+        version: 6.0.0(react@19.1.0)
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config

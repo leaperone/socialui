@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { WeChatOfficialAccountCard } from "../../wechat/wechat-official-account-card";
+import { WeChatOfficialAccountCard } from "../wechat-official-account-card";
 
 const meta = {
   title: "China/Wechat/WeChatOfficialAccountCard",
@@ -22,7 +22,6 @@ const meta = {
       options: ["none", "sm", "md", "lg"],
     },
     fullWidth: { control: "boolean" },
-    isHoverable: { control: "boolean" },
     variant: {
       control: { type: "select" },
       options: ["solid", "flat", "bordered"],
@@ -68,15 +67,6 @@ export const Bordered: Story = {
     accountName: "海鱼Harry",
     placeholder: "微信搜一搜",
     variant: "bordered",
-    shadow: "md",
-  },
-};
-
-export const Hoverable: Story = {
-  args: {
-    accountName: "海鱼Harry",
-    placeholder: "微信搜一搜",
-    isHoverable: true,
     shadow: "md",
   },
 };
