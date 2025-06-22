@@ -1,7 +1,7 @@
+@plugin "daisyui";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* @plugin "daisyui"; */
 
 /* daisyUI */
-@import "daisyui/dist/full.css";
+/* @import "daisyui/dist/full.css"; */
