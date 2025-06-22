@@ -1,7 +1,31 @@
 "use client";
 
+import { lazy, Suspense } from "react";
 import cn from "../utils/cn";
-import { XIcon } from "./logo/x";
+
+const Icon = lazy(() => import("@iconify/react").then(mod => ({ default: mod.Icon })));
+
+interface XIconProps {
+  className?: string;
+  size?: number | string;
+  color?: string;
+}
+
+function XIcon({ className, size = 24, color }: XIconProps) {
+  return (
+    <Suspense fallback={<div className="h-8 w-8" />}>
+      <Icon
+        icon="simple-icons:x"
+        className={cn("inline-block", className)}
+        width={size}
+        height={size}
+        color={color}
+      />
+    </Suspense>
+  );
+}
+
+export { XIcon };
 
 export interface XButtonProps {
   username: string;
