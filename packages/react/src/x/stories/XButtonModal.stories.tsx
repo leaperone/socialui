@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { XButtonModal, openXButtonModal } from "../x-button-modal";
+import { XButtonModal } from "../x-button-modal";
 
 const meta: Meta<typeof XButtonModal> = {
   title: "International/X/XButtonModal",
