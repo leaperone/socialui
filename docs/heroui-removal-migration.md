@@ -1,268 +1,178 @@
-# HeroUI 移除与自定义组件迁移指南
+# HeroUI 移除迁移指南
 
-## 概述
+本文档记录了从 `@ui2someone/react` 包中完全移除 HeroUI 依赖，并使用自定义组件替代的过程。此次迁移旨在减少外部依赖，提高组件的可控性和定制性。
 
-本文档记录了从 `@socialui/ui` 包中完全移除 HeroUI 依赖，并使用自定义组件替代的过程。此次迁移旨在减少外部依赖，提高组件的可控性和定制性。
+## 迁移概述
 
-## 迁移背景
+### 迁移目标
 
-### 移除原因
-- 减少包体积和外部依赖
-- 提高组件定制的灵活性
-- 避免 HeroUI 版本更新带来的潜在问题
-- 更好地符合项目的设计系统
+- 移除 HeroUI 依赖
+- 使用自定义组件替代 HeroUI 组件
+- 保持 API 兼容性
+- 提高组件性能
 
-### 影响范围
-- `packages/ui` 包中的所有组件
-- Storybook 配置
-- Tailwind CSS 配置
+### 迁移范围
 
-## 移除的依赖
+- Button 组件
+- Card 组件
+- Tooltip 组件
+- 其他 HeroUI 组件
 
-### 从 package.json 中移除
-```json
-{
-  "dependencies": {
-    "@heroui/react": "^2.7.10",    // 已移除
-    "@heroui/theme": "^2.4.17"     // 已移除
-  }
-}
+## 迁移步骤
+
+### 1. 移除 HeroUI 依赖
+
+```bash
+# 从 package.json 中移除 HeroUI
+pnpm remove @heroui/react @heroui/themes
 ```
 
-### 新增的依赖
-```json
-{
-  "dependencies": {
-    "clsx": "^2.1.1"  // 用于类名合并的轻量级工具
-  }
-}
-```
+### 2. 更新导入语句
 
-## 创建的自定义组件
+#### 迁移前
 
-### 1. 工具函数 - `cn`
-
-**文件位置**: `src/utils/cn.tsx`
-
-```typescript
-import { clsx, type ClassValue } from "clsx";
-
-export default function cn(...inputs: ClassValue[]) {
-  return clsx(inputs);
-}
-```
-
-**用途**: 用于合并和处理 CSS 类名，替代 HeroUI 的 `cn` 函数。
-
-### 2. Button 组件
-
-**文件位置**: `src/components/ui/button.tsx`
-
-**特性**:
-- 支持 `radius` 属性 (none, sm, md, lg)
-- 支持 `startContent` 前置内容
-- 支持 `onPress` 回调函数
-- 完全兼容原有的 HeroUI Button API
-
-**使用示例**:
 ```tsx
-import { Button } from "@socialui/ui";
-
-<Button 
-  radius="md"
-  startContent={<Icon />}
-  onPress={() => console.log('pressed')}
->
-  点击按钮
-</Button>
+import { Button } from "@ui2someone/react";
 ```
 
-### 3. Card 组件
+#### 迁移后
 
-**文件位置**: `src/components/ui/card.tsx`
-
-**包含组件**:
-- `Card` - 主卡片容器
-- `CardBody` - 卡片内容区域
-
-**特性**:
-- 支持 `shadow` 属性 (none, sm, md, lg)
-- 支持 `radius` 属性 (none, sm, md, lg)
-- 支持 `fullWidth` 全宽模式
-- 支持 `isPressable` 可点击状态
-- 支持 `variant` 变体样式
-
-**使用示例**:
 ```tsx
-import { Card, CardBody } from "@socialui/ui";
-
-<Card shadow="md" radius="lg" fullWidth>
-  <CardBody>
-    卡片内容
-  </CardBody>
-</Card>
+import { Button } from "@ui2someone/react";
 ```
 
-### 4. Tooltip 组件
+### 3. 组件 API 变更
 
-**文件位置**: `src/components/ui/tooltip.tsx`
+#### Button 组件
 
-**特性**:
-- 悬停显示提示信息
-- 简单易用的 API
-- 支持自定义样式
+##### 迁移前
 
-**使用示例**:
 ```tsx
-import { Tooltip } from "@socialui/ui";
+import { Button } from "@ui2someone/react";
 
-<Tooltip content="这是提示信息">
-  <button>悬停查看提示</button>
-</Tooltip>
+<Button color="primary" variant="solid">
+  Click me
+</Button>;
 ```
 
-## 配置文件更改
+##### 迁移后
 
-### Tailwind 配置更新
-
-**文件**: `tailwind.config.js`
-
-**更改内容**:
-```javascript
-// 移除前
-const { heroui } = require("@heroui/theme");
-module.exports = {
-  content: [
-    "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
-  ],
-  plugins: [heroui()],
-}
-
-// 移除后
-module.exports = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./.storybook/**/*.{js,ts,jsx,tsx}",
-  ],
-  plugins: [],
-}
-```
-
-### Storybook 配置更新
-
-**文件**: `.storybook/preview.tsx`
-
-**更改内容**:
 ```tsx
-// 移除前
-import { HeroUIProvider } from '@heroui/react'
-decorators: [
-  (Story) => (
-    <HeroUIProvider>
-      <Story />
-    </HeroUIProvider>
-  ),
-]
+import { Button } from "@ui2someone/react";
 
-// 移除后
-decorators: [
-  (Story) => (
-    <div>
-      <Story />
-    </div>
-  ),
-]
+<Button variant="primary">Click me</Button>;
 ```
 
-## 组件更新详情
+#### Card 组件
 
-### WeChatCard 组件迁移
+##### 迁移前
 
-**主要更改**:
-1. 替换了所有 HeroUI 组件导入
-2. 移除了 `HeroUIProvider` 包装器
-3. 更新了 HeroUI 特定的类名
+```tsx
+import { Card, CardBody } from "@ui2someone/react";
 
-**类名映射**:
-```typescript
-// HeroUI 类名 -> 标准 Tailwind 类名
-"text-default-600" -> "text-gray-600"
-"text-default-400" -> "text-gray-400"  
-"text-default-500" -> "text-gray-500"
-"bg-default-100"   -> "bg-gray-100"
+<Card>
+  <CardBody>Card content</CardBody>
+</Card>;
 ```
 
-## 导出结构
+##### 迁移后
 
-### 主索引文件
+```tsx
+import { Card } from "@ui2someone/react";
 
-**文件**: `src/index.ts`
-
-```typescript
-// UI Components
-export * from "./components/ui";
-
-// Utilities  
-export * from "./utils";
-
-// WeChat Components
-export { WeChatCard, type WeChatCardProps } from "./wechat/card";
+<Card>Card content</Card>;
 ```
 
-### 组件索引文件
+#### Tooltip 组件
 
-**文件**: `src/components/ui/index.ts`
+##### 迁移前
 
-```typescript
-export { Button, type ButtonProps } from "./button";
-export { Card, CardBody, type CardProps, type CardBodyProps } from "./card";
-export { Tooltip, type TooltipProps } from "./tooltip";
+```tsx
+import { Tooltip } from "@ui2someone/react";
+
+<Tooltip content="Tooltip text">
+  <Button>Hover me</Button>
+</Tooltip>;
 ```
 
-## 迁移验证
+##### 迁移后
 
-### 功能验证清单
-- ✅ 所有组件正常渲染
-- ✅ 样式保持一致性
-- ✅ TypeScript 类型完整
-- ✅ Storybook 正常工作
-- ✅ 无 HeroUI 残留引用
-- ✅ 构建过程无错误
+```tsx
+import { Tooltip } from "@ui2someone/react";
 
-### 性能提升
-- 减少了包依赖数量
-- 降低了打包体积
-- 提高了构建速度
-- 增强了组件可控性
+<Tooltip content="Tooltip text">
+  <Button>Hover me</Button>
+</Tooltip>;
+```
 
-## 使用指南
+## 兼容性说明
 
-### 开发者注意事项
-1. 新组件 API 与 HeroUI 基本兼容
-2. 样式基于标准 Tailwind CSS 类名
-3. 可通过 `cn` 函数进行类名合并
-4. 支持完整的 TypeScript 类型检查
+### 保持兼容的 API
 
-### 自定义样式
-由于组件现在基于标准 Tailwind 类名，可以更容易地：
-- 通过 `className` 属性自定义样式
-- 使用 Tailwind 的所有功能
-- 创建主题变体
-- 实现响应式设计
+- 基本的 props 结构
+- 事件处理函数
+- 样式类名
 
-## 后续优化建议
+### 变更的 API
 
-1. **主题系统**: 考虑基于 CSS 变量创建主题系统
-2. **组件扩展**: 根据需要添加更多自定义组件
-3. **性能优化**: 使用 Tree-shaking 进一步减少包体积
-4. **测试覆盖**: 为新组件添加单元测试和集成测试
+- 颜色属性从 `color` 改为 `variant`
+- 部分组件的嵌套结构简化
+- 某些高级功能可能需要手动实现
+
+## 性能优化
+
+### 迁移后的优势
+
+- 减少包体积
+- 提高加载速度
+- 更好的 Tree-shaking
+- 自定义样式更容易
+
+### 注意事项
+
+- 确保自定义组件性能不劣于原组件
+- 保持 TypeScript 类型安全
+- 维护良好的文档和示例
+
+## 测试建议
+
+### 迁移测试清单
+
+- [ ] 组件渲染正常
+- [ ] 样式显示正确
+- [ ] 交互功能正常
+- [ ] TypeScript 类型检查通过
+- [ ] 单元测试通过
+- [ ] 集成测试通过
+
+### 测试命令
+
+```bash
+# 运行类型检查
+pnpm check-types
+
+# 运行测试
+pnpm test
+
+# 运行 Storybook
+pnpm storybook
+```
+
+## 回滚计划
+
+如果迁移过程中遇到问题，可以按以下步骤回滚：
+
+1. 恢复 HeroUI 依赖
+2. 恢复原有的导入语句
+3. 恢复组件 API 使用方式
+4. 更新相关文档
 
 ## 总结
 
-此次 HeroUI 移除工作成功实现了：
-- 完全移除外部 UI 库依赖
-- 保持组件功能和样式的一致性
-- 提高了代码的可维护性和定制性
-- 为未来的 UI 系统发展奠定了基础
+此次迁移成功移除了 HeroUI 依赖，提高了组件的可控性和性能。新的自定义组件保持了良好的 API 兼容性，同时提供了更好的定制能力。
 
-迁移后的组件库更加轻量、可控，同时保持了良好的开发体验和用户体验。 
+## 相关文档
+
+- [组件文档](../packages/react/README.md)
+- [Storybook 文档](http://localhost:6006)
+- [TypeScript 配置](../packages/typescript-config/README.md)

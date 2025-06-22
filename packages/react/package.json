@@ -1,5 +1,5 @@
 {
-  "name": "@socialui/react",
+  "name": "@ui2someone/react",
   "version": "1.1.2",
   "description": "A modern React UI component library for social media display",
   "keywords": [
@@ -14,11 +14,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/leaperone/socialui.git"
+    "url": "https://github.com/leaperone/ui2someone.git"
   },
-  "homepage": "https://github.com/leaperone/socialui#readme",
+  "homepage": "https://github.com/leaperone/ui2someone#readme",
   "bugs": {
-    "url": "https://github.com/leaperone/socialui/issues"
+    "url": "https://github.com/leaperone/ui2someone/issues"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

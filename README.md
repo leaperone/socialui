@@ -1,6 +1,6 @@
-# SocialUI
+# UI2Someone
 
-基于 Turborepo 的现代化 UI 组件库项目，包含自动化工具链和 Storybook 集成。
+A modern React UI component library for social media display with semantic colors and DaisyUI integration.
 
 ## 📖 文档
 
@@ -13,14 +13,14 @@
 
 ### 在 React (or Nextjs) 中使用
 
-```
-pnpm i @socialui/react
+```bash
+pnpm i @ui2someone/react
 ```
 
 ```tsx
 "use client";
 
-import { WeChatOfficialAccountCard } from "@socialui/react";
+import { WeChatOfficialAccountCard } from "@ui2someone/react";
 
 export default function Abc() {
   return (
@@ -53,3 +53,52 @@ cd packages/ui && pnpm watch:stories
 # 终端 2: 启动 Storybook
 cd packages/ui && pnpm storybook
 ```
+
+## Features
+
+- 🎨 **Semantic Colors**: Built-in semantic color system
+- 🎯 **DaisyUI Integration**: Seamless DaisyUI component integration
+- 📱 **Social Media Cards**: Ready-to-use social media profile cards
+- 🛍️ **E-commerce Cards**: Product and store display cards
+- 📞 **Contact Cards**: Various contact information cards
+- 🎭 **TypeScript**: Full TypeScript support
+- ⚡ **Tailwind CSS**: Powered by Tailwind CSS
+- 📖 **Storybook**: Interactive component documentation
+
+## Components
+
+### Social Media Cards
+
+- WeChat Official Account Card
+- WeChat Contact Card
+- X (Twitter) Profile Card
+- LinkedIn Profile Card
+- Facebook Profile Card
+- Weibo Profile Card
+- Bilibili Profile Card
+- YouTube Channel Card
+- Twitch Live Room Card
+- WhatsApp Contact Card
+- Line Contact Card
+- Jike Profile Card
+
+### E-commerce Cards
+
+- Taobao Store Card
+- Stripe Product Card
+
+### Contact Cards
+
+- vCard Contact Card
+
+## Documentation
+
+Visit our [documentation](https://ui2someone.vercel.app) for detailed guides and examples.
+
+## Contributing
+
+We welcome contributions! Please see our [contributing guide](CONTRIBUTING.md) for details.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.

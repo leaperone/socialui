@@ -1,116 +1,63 @@
-# SocialUI 项目文档
+# UI2Someone 项目文档
 
-这里是 SocialUI 项目的技术文档集合，记录了项目的各种实现和使用方法。
+这里是 UI2Someone 项目的技术文档集合，记录了项目的各种实现和使用方法。
 
 ## 📚 文档目录
 
-### 🛠️ 开发工具
+### 迁移指南
 
-- [**Storybook Stories 自动生成功能**](./storybook-auto-generation.md) - 自动为 React 组件生成 Storybook Stories 的工具链实现
+- [HeroUI 移除迁移指南](./heroui-removal-migration.md) - 从 HeroUI 迁移到自定义组件的完整指南
 
-## 🏗️ 项目结构
+### 组件文档
 
-```
-socialui/
-├── apps/                      # 应用程序
-├── packages/                  # 共享包
-│   ├── ui/                   # UI 组件库
-│   │   ├── src/              # 组件源码
-│   │   ├── scripts/          # 自动化脚本
-│   │   └── .storybook/       # Storybook 配置
-│   ├── eslint-config/        # ESLint 配置
-│   └── typescript-config/    # TypeScript 配置
-├── docs/                     # 项目文档（本目录）
-└── README.md                 # 项目主说明
-```
+- [社交个人资料卡片](./social-profile-cards.md) - 社交平台个人资料卡片组件的使用说明
+- [微信卡片组件](./wechat-card-component.md) - 微信相关卡片组件的详细文档
+- [B站个人资料卡片](./bilibili-profile-card.md) - B站个人资料卡片组件的使用指南
+
+### 开发指南
+
+- [按钮变体系统迁移](./button-variant-system-migration.md) - 按钮组件变体系统的迁移指南
+- [Storybook 自动生成](./storybook-auto-generation.md) - Storybook 故事文件的自动生成机制
+- [代码质量规范](./CODE_QUALITY.md) - 项目代码质量标准和规范
+
+### 项目设置
+
+- [项目设置指南](./SETUP.md) - 项目的完整设置和配置说明
 
 ## 🚀 快速开始
 
-### 开发环境设置
-
-1. **安装依赖**
-
-   ```bash
-   pnpm install
-   ```
-
-2. **启动 UI 组件库开发**
-
-   ```bash
-   cd packages/ui
-   pnpm storybook
-   ```
-
-3. **自动生成 Stories**
-   ```bash
-   cd packages/ui
-   pnpm generate:stories  # 一次性生成
-   # 或
-   pnpm watch:stories     # 监听模式
-   ```
-
-## 📖 使用指南
-
-### UI 组件开发
-
-1. 在 `packages/ui/src/` 下创建新的组件文件
-2. 使用 TypeScript interface 定义组件属性
-3. 运行 `pnpm generate:stories` 自动生成 Storybook Stories
-4. 在 Storybook 中预览和测试组件
-
-### 推荐的开发流程
-
 ```bash
-# 终端 1: 启动 Stories 自动生成监听
-cd packages/ui && pnpm watch:stories
+# 克隆项目
+git clone https://github.com/leaperone/ui2someone.git
 
-# 终端 2: 启动 Storybook 开发服务
-cd packages/ui && pnpm storybook
+# 进入项目目录
+cd ui2someone
 
-# 现在可以编写组件，Stories 会自动生成和更新
+# 安装依赖
+pnpm install
+
+# 启动开发服务器
+pnpm dev
 ```
 
-## 🎯 最佳实践
+## 📁 项目结构
 
-### 组件编写规范
+```
+ui2someone/
+├── apps/           # 应用目录
+│   ├── docs/       # 文档应用
+│   └── web/        # Web 应用
+├── packages/       # 包目录
+│   ├── react/      # React 组件库
+│   ├── eslint-config/     # ESLint 配置
+│   └── typescript-config/ # TypeScript 配置
+└── docs/           # 项目文档
+```
 
-- 使用 TypeScript interface 定义 props
-- 遵循 React 函数组件模式
-- 支持 `class-variance-authority` (CVA) 样式变体
-- 提供合理的默认值
+## 🤝 贡献指南
 
-### 文件组织
+欢迎贡献代码！请查看 [贡献指南](../CONTRIBUTING.md) 了解详细信息。
 
-- 组件文件: `packages/ui/src/*.tsx`
-- Stories 文件: `packages/ui/src/stories/*.stories.ts`（自动生成）
-- 样式文件: 使用 CVA 或 Tailwind CSS
+## 📄 许可证
 
-## 🔧 工具链
-
-- **包管理**: pnpm
-- **构建工具**: Turbo
-- **类型检查**: TypeScript
-- **代码质量**: ESLint
-- **样式**: Tailwind CSS + CVA
-- **组件预览**: Storybook
-- **自动化**: 自定义 Node.js 脚本
-
-## 📝 贡献指南
-
-1. 创建新功能分支
-2. 编写组件和对应测试
-3. 使用自动生成工具创建 Stories
-4. 提交符合规范的 commit 信息
-5. 更新相关文档
-
-## 📞 支持与反馈
-
-如有问题或建议，请：
-
-- 查看相关文档
-- 检查自动生成脚本的输出日志
-- 提交 Issue 或 PR
-
----
-
-_项目维护者: LEAPERone_
+本项目采用 MIT 许可证 - 查看 [LICENSE](../LICENSE) 文件了解详情。

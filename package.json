@@ -1,5 +1,5 @@
 {
-  "name": "socialui",
+  "name": "ui2someone",
   "private": true,
   "scripts": {
     "build": "turbo run build",

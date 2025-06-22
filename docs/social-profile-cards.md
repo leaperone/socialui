@@ -1,220 +1,224 @@
-# Social Profile Cards Components
+# 社交个人资料卡片组件文档
 
-本文档描述了 socialui 库中的社交平台个人资料卡片组件的实现和使用方法。
+本文档描述了 ui2someone 库中的社交平台个人资料卡片组件的实现和使用方法。
 
 ## 概述
 
-我们实现了多个社交平台的个人资料卡片组件，用于展示用户信息和提供快速关注功能。这些组件具有统一的设计语言和 API，但针对不同平台进行了定制化。
+社交个人资料卡片组件是一套专门为各种社交平台设计的 React 组件，提供了统一的 API 和样式系统，同时保持了各平台的设计特色。
 
-## 已实现的组件
+## 组件列表
 
-### 1. X Profile Card (`XProfileCard`)
+### X (Twitter) 个人资料卡片
 
-#### 功能特性
+**组件名称**: `XProfileCard`
 
-- **平台特色**：使用 X 平台的黑色主题色和官方图标
-- **用户信息展示**：显示名、用户名(@username)、关注数、粉丝数
-- **QR 码生成**：自动生成指向 X 个人页面的二维码
-- **跳转功能**：提供"View Profile"按钮，在新标签页打开个人资料
-- **多种样式**：支持 5 种视觉变体（solid、flat、faded、bordered、light）
-- **响应式布局**：支持水平和垂直方向排列
+**功能特性**:
 
-#### 组件属性
+- 显示用户头像、名称和用户名
+- 支持关注者数量显示
+- 支持推文数量显示
+- 支持关注按钮
+- 响应式设计
+
+**使用示例**:
+
+```tsx
+import { XProfileCard } from "@ui2someone/react";
+
+function App() {
+  return (
+    <XProfileCard
+      name="John Doe"
+      username="@johndoe"
+      avatar="https://example.com/avatar.jpg"
+      bio="Software developer and tech enthusiast"
+      followers={1234}
+      following={567}
+      tweets={890}
+      isFollowing={false}
+      onFollow={() => console.log("Follow clicked")}
+    />
+  );
+}
+```
+
+**Props 接口**:
 
 ```typescript
 interface XProfileCardProps {
-  qrCodeContent?: string; // QR 码内容，默认为示例链接
-  username?: string; // X 用户名（不含@）
-  displayName?: string; // 显示名称
-  followers?: string; // 粉丝数量
-  following?: string; // 关注数量
-  profileUrl?: string; // 个人资料页面链接
-  className?: string; // 自定义样式类
-  shadow?: "none" | "sm" | "md" | "lg";
-  radius?: "none" | "sm" | "md" | "lg";
-  fullWidth?: boolean;
-  isPressable?: boolean;
-  variant?: "solid" | "flat" | "faded" | "bordered" | "light";
-  orientation?: "horizontal" | "vertical";
+  name: string;
+  username: string;
+  avatar: string;
+  bio?: string;
+  followers: number;
+  following: number;
+  tweets: number;
+  isFollowing?: boolean;
+  onFollow?: () => void;
+  className?: string;
 }
 ```
 
-#### 使用示例
+### B站个人资料卡片
+
+**组件名称**: `BilibiliProfileCard`
+
+**功能特性**:
+
+- 显示用户头像、昵称和签名
+- 支持粉丝数和关注数显示
+- 支持视频数量显示
+- 支持关注按钮
+- B站特色设计风格
+
+**使用示例**:
 
 ```tsx
-import { XProfileCard } from "@socialui/ui";
+import { BilibiliProfileCard } from "@ui2someone/react";
 
-<XProfileCard
-  username="elonmusk"
-  displayName="Elon Musk"
-  followers="163.7M"
-  following="743"
-  profileUrl="https://x.com/elonmusk"
-  qrCodeContent="https://x.com/elonmusk"
-  variant="solid"
-  orientation="horizontal"
-/>;
+function App() {
+  return (
+    <BilibiliProfileCard
+      nickname="B站用户"
+      signature="这是一个B站用户的签名"
+      avatar="https://example.com/avatar.jpg"
+      fans={5000}
+      following={200}
+      videos={50}
+      isFollowing={true}
+      onFollow={() => console.log("Follow clicked")}
+    />
+  );
+}
 ```
 
-#### 设计特点
-
-- **X 主题色**：使用黑色到深灰色的渐变背景
-- **装饰元素**：半透明圆形装饰，营造层次感
-- **图标集成**：右上角显示 X 官方图标
-- **交互反馈**：按钮支持悬停放大和点击缩小效果
-
-### 2. Bilibili Profile Card (`BilibiliProfileCard`)
-
-#### 功能特性
-
-- **平台特色**：使用 Bilibili 的粉色到蓝色渐变主题色
-- **用户信息展示**：用户名、UID、粉丝数、关注数、视频数
-- **中文界面**：文案使用中文，符合中国用户习惯
-- **QR 码生成**：自动生成指向 Bilibili 个人空间的二维码
-- **跳转功能**：提供"查看主页"按钮，在新标签页打开个人空间
-- **多种样式**：支持 5 种视觉变体
-- **响应式布局**：支持水平和垂直方向排列
-
-#### 组件属性
+**Props 接口**:
 
 ```typescript
 interface BilibiliProfileCardProps {
-  qrCodeContent?: string; // QR 码内容，默认为示例链接
-  uid?: string; // Bilibili UID
-  username?: string; // 用户名
-  fans?: string; // 粉丝数量
-  following?: string; // 关注数量
-  videos?: string; // 视频数量
-  profileUrl?: string; // 个人空间链接
-  className?: string; // 自定义样式类
-  shadow?: "none" | "sm" | "md" | "lg";
-  radius?: "none" | "sm" | "md" | "lg";
-  fullWidth?: boolean;
-  isPressable?: boolean;
-  variant?: "solid" | "flat" | "faded" | "bordered" | "light";
-  orientation?: "horizontal" | "vertical";
+  nickname: string;
+  signature?: string;
+  avatar: string;
+  fans: number;
+  following: number;
+  videos: number;
+  isFollowing?: boolean;
+  onFollow?: () => void;
+  className?: string;
 }
 ```
 
-#### 使用示例
+## 设计原则
 
-```tsx
-import { BilibiliProfileCard } from "@socialui/ui";
+### 统一性
 
-<BilibiliProfileCard
-  uid="1577804"
-  username="哔哩哔哩弹幕网"
-  fans="1024.5万"
-  following="1"
-  videos="1.2万"
-  profileUrl="https://space.bilibili.com/1577804"
-  qrCodeContent="https://space.bilibili.com/1577804"
-  variant="solid"
-/>;
+- 所有卡片组件遵循相同的 API 设计模式
+- 统一的样式系统和主题支持
+- 一致的交互行为
+
+### 平台特色
+
+- 保持各平台的设计语言和视觉特色
+- 使用平台特定的颜色和图标
+- 符合用户的使用习惯
+
+### 可定制性
+
+- 支持自定义样式和主题
+- 灵活的 props 配置
+- 可扩展的组件结构
+
+## 样式系统
+
+### 主题支持
+
+所有卡片组件都支持主题系统，可以通过 CSS 变量进行定制：
+
+```css
+:root {
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+}
 ```
 
-#### 设计特点
+### 响应式设计
 
-- **Bilibili 主题色**：粉色到蓝色的渐变背景
-- **本土化设计**：中文标签（关注、粉丝、视频）
-- **图标集成**：右上角显示 Bilibili 官方图标
-- **数据展示**：显示 Bilibili 特有的视频数量统计
+组件采用响应式设计，在不同屏幕尺寸下都能良好显示：
 
-## 共同特性
+- 移动端：单列布局，紧凑设计
+- 平板端：双列布局，适中间距
+- 桌面端：多列布局，宽松间距
 
-### 样式变体
+## 性能优化
 
-所有组件都支持以下 5 种样式变体：
+### 懒加载
 
-1. **solid**：实色背景，白色文字（默认）
-2. **flat**：浅色背景，深色文字
-3. **faded**：更浅的背景，适中透明度
-4. **bordered**：透明背景，带边框
-5. **light**：完全透明背景
+- 图片支持懒加载
+- 组件按需渲染
+- 优化重渲染性能
 
-### 布局方向
+### 内存管理
 
-- **horizontal**：水平布局（默认），QR 码在左侧，信息在右侧
-- **vertical**：垂直布局，QR 码在上方，信息在下方
-
-### 交互功能
-
-- **QR 码扫描**：自动生成对应平台的个人页面二维码
-- **跳转按钮**：点击按钮在新标签页打开个人资料页面
-- **按钮动效**：悬停放大、点击缩小的微交互效果
-- **安全链接**：使用 `noopener,noreferrer` 确保安全性
-
-## 技术实现
-
-### 依赖库
-
-- **@iconify/react**：图标库，提供各平台官方图标
-- **qrcode**：QR 码生成库
-- **React**：使用 forwardRef 支持 ref 传递
-- **Tailwind CSS**：样式系统，支持主题定制
-
-### 文件结构
-
-```
-packages/ui/src/
-├── x/
-│   ├── x-profile-card.tsx
-│   └── ...
-├── bilibili/
-│   ├── bilibili-profile-card.tsx
-│   └── ...
-├── stories/
-│   └── x/
-│       ├── XProfileCard.stories.tsx
-│       ├── BilibiliProfileCard.stories.tsx
-│       └── ...
-└── index.ts (导出配置)
-```
-
-### Storybook 集成
-
-每个组件都配备了完整的 Storybook 故事，包括：
-
-- 默认示例
-- 不同样式变体展示
-- 垂直/水平布局对比
-- 完整功能演示
-- 真实数据模拟
-
-## 扩展指南
-
-### 添加新平台
-
-要添加新的社交平台卡片组件，请遵循以下步骤：
-
-1. **创建组件文件**：在对应平台文件夹下创建组件文件
-2. **定义接口**：根据平台特性定义 Props 接口
-3. **实现组件**：使用统一的设计模式和 API
-4. **添加样式**：根据平台品牌色定制主题样式
-5. **创建 Stories**：编写 Storybook 故事文件
-6. **更新导出**：在 `index.ts` 中添加组件导出
-
-### 样式定制
-
-组件支持通过以下方式进行样式定制：
-
-- **className 属性**：传入自定义 CSS 类
-- **variant 属性**：选择预设样式变体
-- **Tailwind 配置**：修改主题色彩配置
+- 合理的事件监听器管理
+- 避免内存泄漏
+- 优化组件生命周期
 
 ## 最佳实践
 
-1. **数据格式化**：使用合适的数字格式（如 1.2K、1.5M）
-2. **错误处理**：为 QR 码生成失败提供友好的错误状态
-3. **无障碍访问**：确保按钮和链接具有适当的 aria 标签
-4. **性能优化**：使用 lazy loading 和 Suspense 优化图标加载
-5. **安全性**：外部链接使用安全的打开方式
+### 使用建议
 
-## 未来规划
+1. 根据实际需求选择合适的卡片组件
+2. 提供完整的用户信息以获得最佳显示效果
+3. 合理处理加载状态和错误状态
+4. 注意无障碍访问性
 
-- [ ] 添加更多社交平台支持（YouTube、Instagram、TikTok 等）
-- [ ] 支持头像显示功能
-- [ ] 添加动画效果和过渡动画
-- [ ] 支持深色模式自动适配
-- [ ] 添加复制链接功能
-- [ ] 支持自定义 QR 码样式
+### 性能考虑
+
+1. 避免频繁的 props 更新
+2. 使用 React.memo 优化渲染性能
+3. 合理使用 useCallback 和 useMemo
+4. 注意图片资源的优化
+
+## 故障排除
+
+### 常见问题
+
+**Q: 图片无法显示？**
+A: 检查图片 URL 是否正确，确保网络连接正常。
+
+**Q: 样式显示异常？**
+A: 确保正确引入了样式文件，检查 CSS 变量是否正确设置。
+
+**Q: 组件无法渲染？**
+A: 检查必需的 props 是否都已提供，查看控制台错误信息。
+
+### 调试技巧
+
+1. 使用浏览器开发者工具检查组件结构
+2. 查看 React DevTools 中的组件状态
+3. 检查网络请求和资源加载
+4. 使用 Storybook 进行组件调试
+
+## 更新日志
+
+### v1.1.0
+
+- 新增 B站个人资料卡片组件
+- 优化 X 个人资料卡片样式
+- 改进响应式设计
+
+### v1.0.0
+
+- 初始版本发布
+- 包含 X 个人资料卡片组件
+- 基础样式系统
+
+## 贡献指南
+
+欢迎贡献代码！请查看 [贡献指南](../../CONTRIBUTING.md) 了解详细信息。
+
+## 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](../../LICENSE) 文件了解详情。
