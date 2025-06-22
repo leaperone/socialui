@@ -60,3 +60,6 @@ export { TwitchLiveRoomCard, type TwitchLiveRoomCardProps } from "./twitch/twitc
 
 // Stripe Components
 export { StripeProductCard, type StripeProductCardProps } from "./stripe/stripe-product-card";
+
+// vCard Components
+export { VCardContactCard, type VCardContactCardProps } from "./vcard/vcard-contact-card";
