@@ -12,29 +12,10 @@ export {
 } from "./wechat/wechat-official-account-card";
 
 export { WeChatContactCard, type WeChatContactCardProps } from "./wechat/wechat-contact-card";
-export {
-  WeChatLogo,
-  type WeChatLogoProps,
-  type WeChatLogoVariant,
-  type WeChatLogoLanguage,
-} from "./logo/wechat-official-account";
-export {
-  WeChatLogo as WeChatAppLogo,
-  type WeChatLogoProps as WeChatAppLogoProps,
-  type WeChatLogoVariant as WeChatAppLogoVariant,
-  type WeChatLogoLanguage as WeChatAppLogoLanguage,
-} from "./logo/wechat";
 
 // X Components
 export { XProfileCard, type XProfileCardProps } from "./x/x-profile-card";
 export { XButton, type XButtonProps } from "./x/x-button";
-export {
-  XButtonModal,
-  openXButtonModal,
-  closeXButtonModal,
-  type XButtonModalProps,
-} from "./x/x-button-modal";
-export { XIcon, type XIconProps } from "./logo/x";
 
 // Bilibili Components
 export {

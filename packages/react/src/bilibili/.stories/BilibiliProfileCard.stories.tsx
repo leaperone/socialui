@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { BilibiliProfileCard } from "../../bilibili/bilibili-profile-card";
+import { BilibiliProfileCard } from "../bilibili-profile-card";
 
 const meta: Meta<typeof BilibiliProfileCard> = {
   title: "China/Bilibili/BilibiliProfileCard",
