@@ -1,0 +1,74 @@
+# 欢迎使用 UI2SEOMEone
+
+UI2SOMEone 是一个专为社交媒体链接与二维码展示场景设计的组件库。你可以轻松集成各类社交卡片、按钮、二维码等组件，让你的产品快速具备美观、统一的社交分享能力。
+
+---
+
+## ✨ 主要功能亮点
+
+- 丰富的社交媒体卡片组件（如微信、微博、B 站、Facebook 等）
+- 一键生成二维码、展示社交链接
+- 支持 Storybook 组件预览
+
+---
+
+## 🚀 快速开始
+
+### 安装组件库
+
+```bash
+# 使用 npm
+npm install @ui2someone/react
+
+# 使用 pnpm
+pnpm add @ui2someone/react
+
+# 使用 yarn
+yarn add @ui2someone/react
+```
+
+### 基础用法示例
+
+```tsx
+import { WechatContactCard, BilibiliProfileCard } from "@ui2someone/react";
+
+function App() {
+  return (
+    <div className="space-y-4">
+      <WechatContactCard wechatId="your-wechat-id" />
+      <BilibiliProfileCard uid="123456" />
+    </div>
+  );
+}
+```
+
+---
+
+## 🧩 组件预览
+
+我们为所有组件提供了 Storybook 预览和交互体验：
+
+```bash
+pnpm storybook
+```
+
+打开本地 http://localhost:6006 即可浏览所有组件和用法示例。
+
+---
+
+## ❓ 常见问题
+
+**Q: 组件库支持哪些社交平台？**
+A: 支持微信、微博、B 站、Facebook、Line、LinkedIn、Twitch、YouTube 等主流平台。
+
+**Q: 如何自定义主题或样式？**
+A: 组件基于 Tailwind CSS 和 daisyUI，支持自定义主题和样式扩展。
+
+**Q: 如何反馈问题或贡献代码？**
+A: 欢迎通过 GitHub Issues 或 Pull Requests 参与贡献。
+
+---
+
+## 📄 许可证
+
+本项目遵循 [MIT License](../LICENSE)。
