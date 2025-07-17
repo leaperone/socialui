@@ -1,0 +1,265 @@
+# 快速开始
+
+欢迎使用 UI2Someone！这是一个专为社交媒体链接与二维码展示场景设计的现代化 React 组件库。
+
+## 📦 安装
+
+首先，在你的 React 项目中安装 UI2Someone：
+
+```bash
+# 使用 npm
+npm install @ui2someone/react
+
+# 使用 pnpm
+pnpm add @ui2someone/react
+
+# 使用 yarn
+yarn add @ui2someone/react
+```
+
+## 🎨 样式配置
+
+UI2Someone 基于 Tailwind CSS 和 DaisyUI 构建。你需要在项目中配置这些依赖：
+
+### 1. 安装样式依赖
+
+```bash
+npm install tailwindcss daisyui
+```
+
+### 2. 配置 Tailwind CSS
+
+在你的 `tailwind.config.js` 中添加 DaisyUI 插件：
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,ts,jsx,tsx}", "./node_modules/@ui2someone/react/dist/**/*.{js,mjs}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["light", "dark"],
+  },
+};
+```
+
+### 3. 引入样式
+
+在你的主 CSS 文件中引入 Tailwind CSS：
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+## 🚀 基础用法
+
+### 导入组件
+
+```tsx
+import { WeChatContactCard, BilibiliProfileCard, XProfileCard } from "@ui2someone/react";
+```
+
+### 简单示例
+
+```tsx
+import { WeChatContactCard } from "@ui2someone/react";
+
+function App() {
+  return (
+    <div className="p-4">
+      <WeChatContactCard wechatId="your-wechat-id" displayName="我的微信号" />
+    </div>
+  );
+}
+```
+
+## 📱 常用组件示例
+
+### 社交媒体卡片
+
+```tsx
+import {
+  WeChatContactCard,
+  XProfileCard,
+  BilibiliProfileCard,
+  LinkedInProfileCard,
+} from "@ui2someone/react";
+
+function SocialCards() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+      {/* 微信联系卡片 */}
+      <WeChatContactCard wechatId="your-wechat-id" displayName="联系我" />
+
+      {/* X (Twitter) 个人资料卡片 */}
+      <XProfileCard username="your-twitter-handle" displayName="关注我的 X" />
+
+      {/* B站个人资料卡片 */}
+      <BilibiliProfileCard uid="123456" username="your-bilibili-name" />
+
+      {/* LinkedIn 个人资料卡片 */}
+      <LinkedInProfileCard
+        profileUrl="https://linkedin.com/in/yourprofile"
+        displayName="我的 LinkedIn"
+      />
+    </div>
+  );
+}
+```
+
+### 微信官方账号卡片
+
+```tsx
+import { WeChatOfficialAccountCard } from "@ui2someone/react";
+
+function OfficialAccount() {
+  return (
+    <div className="max-w-md mx-auto p-4">
+      <WeChatOfficialAccountCard
+        qrCodeUrl="/path/to/qr-code.png"
+        accountName="我的公众号"
+        description="关注获取最新资讯"
+      />
+    </div>
+  );
+}
+```
+
+### 电商卡片
+
+```tsx
+import { TaobaoStoreCard, StripeProductCard } from "@ui2someone/react";
+
+function EcommerceCards() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+      {/* 淘宝店铺卡片 */}
+      <TaobaoStoreCard storeUrl="https://shop.taobao.com/yourstore" storeName="我的淘宝店" />
+
+      {/* Stripe 产品卡片 */}
+      <StripeProductCard productId="prod_xxx" productName="我的产品" price="¥99" />
+    </div>
+  );
+}
+```
+
+## 🎨 自定义样式
+
+所有组件都支持 `className` 属性来自定义样式：
+
+```tsx
+import { WeChatContactCard } from "@ui2someone/react";
+
+function CustomStyledCard() {
+  return (
+    <WeChatContactCard
+      wechatId="your-wechat-id"
+      className="shadow-lg border border-gray-200 rounded-xl"
+      displayName="自定义样式的微信卡片"
+    />
+  );
+}
+```
+
+## 🌙 主题支持
+
+组件支持 DaisyUI 的主题系统：
+
+```tsx
+function ThemedApp() {
+  return (
+    <div data-theme="dark" className="min-h-screen bg-base-100">
+      <WeChatContactCard wechatId="your-wechat-id" displayName="暗色主题微信卡片" />
+    </div>
+  );
+}
+```
+
+## 📱 响应式设计
+
+所有组件都具备响应式设计能力：
+
+```tsx
+function ResponsiveLayout() {
+  return (
+    <div className="container mx-auto px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <WeChatContactCard wechatId="wechat1" />
+        <XProfileCard username="twitter1" />
+        <BilibiliProfileCard uid="bilibili1" />
+      </div>
+    </div>
+  );
+}
+```
+
+## 🔗 完整示例
+
+```tsx
+import React from "react";
+import {
+  WeChatContactCard,
+  WeChatOfficialAccountCard,
+  XProfileCard,
+  BilibiliProfileCard,
+  YouTubeChannelCard,
+} from "@ui2someone/react";
+
+function SocialMediaHub() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">我的社交媒体</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <WeChatContactCard
+            wechatId="your-wechat"
+            displayName="微信联系我"
+            className="hover:shadow-lg transition-shadow"
+          />
+
+          <WeChatOfficialAccountCard
+            accountName="我的公众号"
+            description="技术分享与思考"
+            className="hover:shadow-lg transition-shadow"
+          />
+
+          <XProfileCard
+            username="your-handle"
+            displayName="关注我的 X"
+            className="hover:shadow-lg transition-shadow"
+          />
+
+          <BilibiliProfileCard
+            uid="123456"
+            username="技术博主"
+            className="hover:shadow-lg transition-shadow"
+          />
+
+          <YouTubeChannelCard
+            channelId="UCxxxxx"
+            channelName="我的 YouTube"
+            className="hover:shadow-lg transition-shadow"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default SocialMediaHub;
+```
+
+## 🎯 下一步
+
+- 浏览 [Storybook 文档](https://ui2someone.vercel.app) 查看所有可用组件
+- 查看各个组件的详细 API 文档
+- 加入我们的社区讨论最佳实践
+
+---
+
+现在你已经掌握了 UI2Someone 的基础用法！开始构建你的社交媒体展示页面吧！ 🚀
