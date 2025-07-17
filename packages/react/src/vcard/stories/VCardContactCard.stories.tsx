@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { VCardContactCard } from "../../vcard/vcard-contact-card";
 
 const meta: Meta<typeof VCardContactCard> = {
-  title: "Contact/VCardContactCard",
+  title: "Contact/VCard/VCardContactCard",
   component: VCardContactCard,
   parameters: {
     layout: "centered",

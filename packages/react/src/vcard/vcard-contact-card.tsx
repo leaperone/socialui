@@ -1,9 +1,7 @@
-import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import cn from "../utils/cn";
 import QRCode from "qrcode";
-import { Phone, Mail, Globe, MapPin, Building, User } from "lucide-react";
-
-const IconifyIcon = lazy(() => import("@iconify/react").then(mod => ({ default: mod.Icon })));
+import { Phone, Mail, Globe, MapPin } from "lucide-react";
 
 export interface VCardContactCardProps {
   fullName?: string;

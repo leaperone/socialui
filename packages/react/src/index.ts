@@ -64,3 +64,7 @@ export { StripeProductCard, type StripeProductCardProps } from "./stripe/stripe-
 
 // vCard Components
 export { VCardContactCard, type VCardContactCardProps } from "./vcard/vcard-contact-card";
+export {
+  VCardContactCardPlain,
+  type VCardContactCardPlainProps,
+} from "./vcard/vcard-contact-card-plain";
