@@ -27,7 +27,7 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
       accountName = "海鱼Harry",
       placeholder = "微信搜一搜",
       shadow = "none",
-      radius = "md",
+      radius = "lg",
       fullWidth = false,
       variant = "solid",
       orientation = "horizontal",
@@ -47,18 +47,16 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
       }
     };
 
+    // WeChat theme variant styles configuration - 统一使用与 WeChatContactCard 相同的样式
     const variantStyles = {
       solid: {
         card: "bg-gradient-to-r from-[#07c160] to-[#34d783] text-white",
         qr: "bg-white",
-        button: "btn btn-ghost bg-white/95 backdrop-blur-sm text-[#07c160] hover:bg-white",
         decorative: { primary: "bg-white/10", secondary: "bg-white/5" },
       },
       flat: {
-        card: "bg-[#e2f9ed]/50 text-[#058141] dark:bg-[#058141]/70 dark:text-[#c5f2db]",
+        card: "bg-[#c5f2db]/50 text-[#058141] dark:bg-[#058141]/70 dark:text-[#c5f2db]",
         qr: "bg-white",
-        button:
-          "btn btn-ghost bg-[#c5f2db]/50 hover:bg-[#c5f2db] dark:bg-[#c5f2db]/20 dark:text-[#e2f9ed] hover:dark:bg-[#c5f2db]/30",
         decorative: {
           primary: "bg-[#c5f2db]/30 dark:bg-[#c5f2db]/20",
           secondary: "bg-[#c5f2db]/20 dark:bg-[#c5f2db]/10",
@@ -67,8 +65,6 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
       bordered: {
         card: "bg-[#e2f9ed]/30 text-[#058141] border-2 border-[#34d783]/70 dark:bg-[#046a36]/40 dark:text-[#c5f2db] dark:border-[#34d783]/50",
         qr: "bg-white",
-        button:
-          "btn btn-outline border-[#34d783] text-[#34d783] hover:bg-[#34d783] hover:border-[#34d783] hover:text-white dark:border-[#c5f2db]/50 dark:text-[#e2f9ed] hover:dark:bg-[#c5f2db]/10 hover:dark:text-black",
         decorative: {
           primary: "bg-[#e2f9ed]/50 dark:bg-[#c5f2db]/20",
           secondary: "bg-[#e2f9ed]/30 dark:bg-[#c5f2db]/10",
@@ -93,6 +89,7 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
       lg: "rounded-xl",
     };
 
+    // Layout classes based on orientation - 与 WeChatContactCard 保持一致
     const layoutClasses = isVertical
       ? "flex-col items-center gap-4"
       : "flex-row items-center gap-6";
@@ -120,15 +117,34 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
     );
 
     const contentSectionClassName = contentClasses;
-    const userInfoClassName = cn("space-y-4", isVertical ? "text-center" : "");
+    const userInfoClassName = cn("space-y-1", isVertical ? "text-center" : "");
+    const displayNameClassName = "text-lg font-medium";
+    const usernameClassName = "text-sm opacity-70";
+    const descriptionClassName = "text-sm opacity-70";
 
-    // Create custom display name with WeChat icon and placeholder
-    const displayNameWithIcon = (
-      <div className={cn("flex items-center gap-3", isVertical ? "justify-center" : "")}>
-        <Suspense fallback={<div className="h-8 w-8" />}>
-          <IconifyIcon icon="ic:baseline-wechat" className="h-8 w-8" />
-        </Suspense>
-        <span className="text-xl font-medium">{placeholder}</span>
+    // Platform icon
+    const platformIcon = (
+      <Suspense fallback={<div className="h-8 w-8" />}>
+        <IconifyIcon icon="ic:baseline-wechat" className="h-8 w-8 opacity-80" />
+      </Suspense>
+    );
+
+    // 创建自定义的用户名显示，包含复制功能
+    const customUsername = (
+      <div
+        className="tooltip cursor-pointer"
+        data-tip={isCopied ? "已复制!" : "点击复制账号名"}
+        onClick={handleCopy}
+      >
+        <div
+          className={cn(
+            usernameClassName,
+            "hover:opacity-100 transition-opacity flex items-center gap-1"
+          )}
+        >
+          {isCopied ? <Check className="size-3 text-[#07c160]" /> : <Search className="size-3" />}
+          <span>{isCopied ? "已复制!" : accountName}</span>
+        </div>
       </div>
     );
 
@@ -148,47 +164,25 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
           )}
         />
 
+        {/* WeChat Icon */}
+        <div className={cn("absolute z-20", isVertical ? "hidden" : "top-4 right-4")}>
+          {platformIcon}
+        </div>
+
         <div className={containerClassName}>
-          <div className={layoutContainerClassName}>
-            <SocialProfileCardPlain
-              qrCodeContent={qrCodeContent}
-              qrContainerClassName={qrContainerClassName}
-            />
-
-            <div className={contentSectionClassName}>
-              <div className={userInfoClassName}>
-                {displayNameWithIcon}
-
-                <div
-                  className="tooltip w-full"
-                  data-tip={isCopied ? "已复制 / Copied!" : "点击复制 / Click to copy"}
-                >
-                  <button
-                    onClick={handleCopy}
-                    className={cn(
-                      "w-full flex items-center justify-start gap-3 px-4 py-3 shadow-sm transition-all duration-300",
-                      currentStyles.button,
-                      isCopied && "bg-[#c5f2db]/80"
-                    )}
-                  >
-                    {isCopied ? (
-                      <Check className="size-5 text-[#07c160]" />
-                    ) : (
-                      <Search className="size-5 opacity-60" />
-                    )}
-                    <span
-                      className={cn(
-                        "text-base transition-all duration-300",
-                        isVertical ? "text-center" : ""
-                      )}
-                    >
-                      {isCopied ? "已复制!" : accountName}
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <SocialProfileCardPlain
+            qrCodeContent={qrCodeContent}
+            displayName={placeholder}
+            username={customUsername}
+            description="扫一扫二维码关注公众号"
+            containerClassName={layoutContainerClassName}
+            qrContainerClassName={qrContainerClassName}
+            contentClassName={contentSectionClassName}
+            userInfoClassName={userInfoClassName}
+            displayNameClassName={displayNameClassName}
+            usernameClassName="block"
+            descriptionClassName={descriptionClassName}
+          />
         </div>
       </div>
     );
