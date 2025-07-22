@@ -12,15 +12,17 @@
     "format:root": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "check-types": "turbo run check-types",
     "prepare": "husky install",
-    "publish:ui": "cd packages/ui && npm run build && npm publish"
+    "publish:ui": "cd packages/react && npm run build && npm publish"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
+    "daisyui": "^5.0.43",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "postcss": "^8.5.5",
     "prettier": "^3.5.3",
     "tailwindcss": "^3.4.17",
+    "tsup": "^8.0.0",
     "turbo": "^2.5.4",
     "typescript": "5.8.2"
   },
