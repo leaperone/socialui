@@ -1,6 +1,6 @@
-import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
+import { forwardRef, lazy, Suspense } from "react";
 import cn from "../utils/cn";
-import QRCode from "qrcode";
+import { SocialProfileCardPlain } from "../components/social-profile-card-plain";
 
 const IconifyIcon = lazy(() => import("@iconify/react").then(mod => ({ default: mod.Icon })));
 
@@ -29,23 +29,9 @@ export const WeChatContactCard = forwardRef<HTMLDivElement, WeChatContactCardPro
     },
     ref
   ) => {
-    const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
     const isVertical = orientation === "vertical";
 
-    useEffect(() => {
-      QRCode.toDataURL(qrCodeContent, {
-        width: 120,
-        margin: 1,
-        color: {
-          dark: "#000000",
-          light: "#FFFFFF",
-        },
-      })
-        .then(setQrCodeDataUrl)
-        .catch(console.error);
-    }, [qrCodeContent]);
-
-    // Variant styles configuration
+    // WeChat theme variant styles configuration
     const variantStyles = {
       solid: {
         card: "bg-gradient-to-r from-[#07c160] to-[#34d783] text-white",
@@ -92,23 +78,42 @@ export const WeChatContactCard = forwardRef<HTMLDivElement, WeChatContactCardPro
       ? "flex-col items-center gap-4"
       : "flex-row items-center gap-6";
 
-    const qrContainerClasses = isVertical ? "flex-shrink-0" : "flex-shrink-0";
-
     const contentClasses = isVertical ? "w-full space-y-4 text-center" : "flex-1 space-y-4";
 
+    // Build className props for SocialProfileCardPlain
+    const cardClassName = cn(
+      "card relative overflow-hidden",
+      currentStyles.card,
+      shadowClasses[shadow],
+      radiusClasses[radius],
+      fullWidth ? "w-full" : "w-fit",
+      isVertical ? "w-fit" : "min-w-96",
+      className
+    );
+
+    const containerClassName = cn("card-body relative z-10");
+    const layoutContainerClassName = cn("flex", layoutClasses);
+
+    const qrContainerClassName = cn(
+      "flex-shrink-0 h-28 w-28 overflow-hidden p-2",
+      currentStyles.qr,
+      radiusClasses[radius]
+    );
+
+    const contentSectionClassName = contentClasses;
+    const userInfoClassName = cn("space-y-1", isVertical ? "text-center" : "");
+    const displayNameClassName = "text-lg font-medium";
+    const descriptionClassName = "text-sm opacity-70";
+
+    // Platform icon
+    const platformIcon = (
+      <Suspense fallback={<div className="h-8 w-8" />}>
+        <IconifyIcon icon="ic:baseline-wechat" className="h-8 w-8 opacity-80" />
+      </Suspense>
+    );
+
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "card relative overflow-hidden",
-          currentStyles.card,
-          shadowClasses[shadow],
-          radiusClasses[radius],
-          fullWidth ? "w-full" : "w-fit",
-          isVertical ? "w-fit" : "min-w-96",
-          className
-        )}
-      >
+      <div className={cardClassName} ref={ref}>
         {/* Decorative circles - positioned inside card boundaries */}
         <div
           className={cn(
@@ -125,50 +130,21 @@ export const WeChatContactCard = forwardRef<HTMLDivElement, WeChatContactCardPro
 
         {/* WeChat Icon */}
         <div className={cn("absolute z-20", isVertical ? "hidden" : "top-4 right-4")}>
-          <Suspense fallback={<div className="h-8 w-8" />}>
-            <IconifyIcon icon="ic:baseline-wechat" className="h-8 w-8 opacity-80" />
-          </Suspense>
+          {platformIcon}
         </div>
 
-        <div className="card-body relative z-10">
-          <div className={cn("flex", layoutClasses)}>
-            {/* QR Code */}
-            <div className={qrContainerClasses}>
-              <div
-                className={cn(
-                  "h-28 w-28 overflow-hidden p-2",
-                  currentStyles.qr,
-                  radiusClasses[radius]
-                )}
-              >
-                {qrCodeDataUrl ? (
-                  <img
-                    src={qrCodeDataUrl}
-                    alt="WeChat QR Code"
-                    className="h-full w-full object-contain"
-                  />
-                ) : (
-                  <div
-                    className={cn(
-                      "h-full w-full bg-gray-100 flex items-center justify-center",
-                      radiusClasses[radius]
-                    )}
-                  >
-                    <div className="text-xs text-gray-500">Loading...</div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Content: nickname and WeChat info */}
-            <div className={contentClasses}>
-              {/* Nickname display */}
-              <div className={cn("space-y-1", isVertical ? "text-center" : "")}>
-                <div className="text-lg font-medium">{nickname}</div>
-                <div className="text-sm opacity-70">扫一扫二维码加我微信</div>
-              </div>
-            </div>
-          </div>
+        <div className={containerClassName}>
+          <SocialProfileCardPlain
+            qrCodeContent={qrCodeContent}
+            displayName={nickname}
+            description="扫一扫二维码加我微信"
+            containerClassName={layoutContainerClassName}
+            qrContainerClassName={qrContainerClassName}
+            contentClassName={contentSectionClassName}
+            userInfoClassName={userInfoClassName}
+            displayNameClassName={displayNameClassName}
+            descriptionClassName={descriptionClassName}
+          />
         </div>
       </div>
     );

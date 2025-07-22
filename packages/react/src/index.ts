@@ -68,3 +68,9 @@ export {
   VCardContactCardPlain,
   type VCardContactCardPlainProps,
 } from "./vcard/vcard-contact-card-plain";
+
+// Social Profile Components
+export {
+  SocialProfileCardPlain,
+  type SocialProfileCardPlainProps,
+} from "./components/social-profile-card-plain";

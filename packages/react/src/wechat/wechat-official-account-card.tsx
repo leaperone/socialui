@@ -1,9 +1,9 @@
 "use client";
 
-import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
+import { forwardRef, lazy, Suspense, useState } from "react";
 import { Search, Check } from "lucide-react";
 import cn from "../utils/cn";
-import QRCode from "qrcode";
+import { SocialProfileCardPlain } from "../components/social-profile-card-plain";
 
 const IconifyIcon = lazy(() => import("@iconify/react").then(mod => ({ default: mod.Icon })));
 
@@ -34,22 +34,8 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
     },
     ref
   ) => {
-    const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
     const [isCopied, setIsCopied] = useState(false);
     const isVertical = orientation === "vertical";
-
-    useEffect(() => {
-      QRCode.toDataURL(qrCodeContent, {
-        width: 120,
-        margin: 1,
-        color: {
-          dark: "#000000",
-          light: "#FFFFFF",
-        },
-      })
-        .then(setQrCodeDataUrl)
-        .catch(console.error);
-    }, [qrCodeContent]);
 
     const handleCopy = async () => {
       try {
@@ -111,25 +97,44 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
       ? "flex-col items-center gap-4"
       : "flex-row items-center gap-6";
 
-    const qrContainerClasses = isVertical ? "flex-shrink-0" : "flex-shrink-0";
     const contentClasses = isVertical ? "w-full space-y-4 text-center" : "flex-1 space-y-4";
-    const headerClasses = isVertical
-      ? "flex items-center justify-center gap-3"
-      : "flex items-center gap-3";
+
+    // Build className props for SocialProfileCardPlain
+    const cardClassName = cn(
+      "card relative overflow-hidden",
+      currentStyles.card,
+      shadowClasses[shadow],
+      radiusClasses[radius],
+      fullWidth ? "w-full" : "w-fit",
+      isVertical ? "w-fit" : "min-w-96",
+      className
+    );
+
+    const containerClassName = cn("card-body relative z-10");
+    const layoutContainerClassName = cn("flex", layoutClasses);
+
+    const qrContainerClassName = cn(
+      "flex-shrink-0 h-28 w-28 overflow-hidden p-2",
+      currentStyles.qr,
+      radiusClasses[radius]
+    );
+
+    const contentSectionClassName = contentClasses;
+    const userInfoClassName = cn("space-y-4", isVertical ? "text-center" : "");
+
+    // Create custom display name with WeChat icon and placeholder
+    const displayNameWithIcon = (
+      <div className={cn("flex items-center gap-3", isVertical ? "justify-center" : "")}>
+        <Suspense fallback={<div className="h-8 w-8" />}>
+          <IconifyIcon icon="ic:baseline-wechat" className="h-8 w-8" />
+        </Suspense>
+        <span className="text-xl font-medium">{placeholder}</span>
+      </div>
+    );
 
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "card relative overflow-hidden",
-          currentStyles.card,
-          shadowClasses[shadow],
-          radiusClasses[radius],
-          fullWidth ? "w-full" : "w-fit",
-          isVertical ? "w-fit" : "min-w-96",
-          className
-        )}
-      >
+      <div className={cardClassName} ref={ref}>
+        {/* Decorative circles - positioned inside card boundaries */}
         <div
           className={cn(
             "absolute right-4 top-4 h-24 w-24 rounded-full translate-x-1/2 -translate-y-1/2",
@@ -143,69 +148,44 @@ export const WeChatOfficialAccountCard = forwardRef<HTMLDivElement, WeChatOffici
           )}
         />
 
-        <div className="card-body relative z-10">
-          <div className={cn("flex", layoutClasses)}>
-            <div className={qrContainerClasses}>
-              <div
-                className={cn(
-                  "h-28 w-28 overflow-hidden p-2",
-                  currentStyles.qr,
-                  radiusClasses[radius]
-                )}
-              >
-                {qrCodeDataUrl ? (
-                  <img
-                    src={qrCodeDataUrl}
-                    alt="WeChat QR Code"
-                    className="h-full w-full object-contain"
-                  />
-                ) : (
-                  <div
-                    className={cn(
-                      "h-full w-full bg-gray-100 flex items-center justify-center",
-                      radiusClasses[radius]
-                    )}
-                  >
-                    <div className="text-xs text-gray-500">Loading...</div>
-                  </div>
-                )}
-              </div>
-            </div>
+        <div className={containerClassName}>
+          <div className={layoutContainerClassName}>
+            <SocialProfileCardPlain
+              qrCodeContent={qrCodeContent}
+              qrContainerClassName={qrContainerClassName}
+            />
 
-            <div className={contentClasses}>
-              <div className={headerClasses}>
-                <Suspense fallback={<div className="h-8 w-8" />}>
-                  <IconifyIcon icon="ic:baseline-wechat" className="h-8 w-8" />
-                </Suspense>
-                <span className="text-xl font-medium">{placeholder}</span>
-              </div>
+            <div className={contentSectionClassName}>
+              <div className={userInfoClassName}>
+                {displayNameWithIcon}
 
-              <div
-                className="tooltip w-full"
-                data-tip={isCopied ? "已复制 / Copied!" : "点击复制 / Click to copy"}
-              >
-                <button
-                  onClick={handleCopy}
-                  className={cn(
-                    "w-full flex items-center justify-start gap-3 px-4 py-3 shadow-sm transition-all duration-300",
-                    currentStyles.button,
-                    isCopied && "bg-[#c5f2db]/80"
-                  )}
+                <div
+                  className="tooltip w-full"
+                  data-tip={isCopied ? "已复制 / Copied!" : "点击复制 / Click to copy"}
                 >
-                  {isCopied ? (
-                    <Check className="size-5 text-[#07c160]" />
-                  ) : (
-                    <Search className="size-5 opacity-60" />
-                  )}
-                  <span
+                  <button
+                    onClick={handleCopy}
                     className={cn(
-                      "text-base transition-all duration-300",
-                      isVertical ? "text-center" : ""
+                      "w-full flex items-center justify-start gap-3 px-4 py-3 shadow-sm transition-all duration-300",
+                      currentStyles.button,
+                      isCopied && "bg-[#c5f2db]/80"
                     )}
                   >
-                    {isCopied ? "已复制!" : accountName}
-                  </span>
-                </button>
+                    {isCopied ? (
+                      <Check className="size-5 text-[#07c160]" />
+                    ) : (
+                      <Search className="size-5 opacity-60" />
+                    )}
+                    <span
+                      className={cn(
+                        "text-base transition-all duration-300",
+                        isVertical ? "text-center" : ""
+                      )}
+                    >
+                      {isCopied ? "已复制!" : accountName}
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

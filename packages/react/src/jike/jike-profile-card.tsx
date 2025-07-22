@@ -1,6 +1,6 @@
-import { forwardRef, lazy, Suspense, useEffect, useState } from "react";
+import { forwardRef, lazy, Suspense } from "react";
 import cn from "../utils/cn";
-import QRCode from "qrcode";
+import { SocialProfileCardPlain } from "../components/social-profile-card-plain";
 
 const IconifyIcon = lazy(() => import("@iconify/react").then(mod => ({ default: mod.Icon })));
 
@@ -39,21 +39,7 @@ export const JikeProfileCard = forwardRef<HTMLDivElement, JikeProfileCardProps>(
     },
     ref
   ) => {
-    const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
     const isVertical = orientation === "vertical";
-
-    useEffect(() => {
-      QRCode.toDataURL(qrCodeContent, {
-        width: 120,
-        margin: 1,
-        color: {
-          dark: "#000000",
-          light: "#FFFFFF",
-        },
-      })
-        .then(setQrCodeDataUrl)
-        .catch(console.error);
-    }, [qrCodeContent]);
 
     // Jike theme variant styles configuration with #FFE900
     const variantStyles = {
@@ -101,23 +87,57 @@ export const JikeProfileCard = forwardRef<HTMLDivElement, JikeProfileCardProps>(
       ? "flex-col items-center gap-4"
       : "flex-row items-center gap-6";
 
-    const qrContainerClasses = isVertical ? "flex-shrink-0" : "flex-shrink-0";
-
     const contentClasses = isVertical ? "w-full space-y-4 text-center" : "flex-1 space-y-4";
 
+    // Build className props for SocialProfileCardPlain
+    const cardClassName = cn(
+      "card relative overflow-hidden",
+      currentStyles.card,
+      shadowClasses[shadow],
+      radiusClasses[radius],
+      fullWidth ? "w-full" : "w-fit",
+      isVertical ? "w-fit" : "min-w-96",
+      className
+    );
+
+    const containerClassName = cn("card-body relative z-10");
+    const layoutContainerClassName = cn("flex", layoutClasses);
+
+    const qrContainerClassName = cn(
+      "flex-shrink-0 h-28 w-28 overflow-hidden p-2",
+      currentStyles.qr,
+      radiusClasses[radius]
+    );
+
+    const contentSectionClassName = contentClasses;
+    const userInfoClassName = cn("space-y-2", isVertical ? "text-center" : "");
+    const displayNameClassName = "text-lg font-bold";
+    const usernameClassName = "text-sm opacity-70";
+    const statsClassName = cn("flex gap-4 text-sm", isVertical ? "justify-center" : "");
+    const descriptionClassName = "text-sm opacity-70 font-semibold";
+
+    // Format stats data
+    const stats = [];
+    if (followers) {
+      stats.push({ label: "关注", value: followers });
+    }
+    if (following) {
+      stats.push({ label: "正在关注", value: following });
+    }
+    if (posts) {
+      stats.push({ label: "动态", value: posts });
+    }
+
+    // Platform icon
+    const platformIcon = (
+      <Suspense fallback={<div className="h-8 w-8" />}>
+        <IconifyIcon icon="simple-icons:jike" className="h-8 w-8 opacity-80" />
+      </Suspense>
+    );
+
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "card relative overflow-hidden",
-          currentStyles.card,
-          shadowClasses[shadow],
-          radiusClasses[radius],
-          fullWidth ? "w-full" : "w-fit",
-          isVertical ? "w-fit" : "min-w-96",
-          className
-        )}
-      >
+      <div className={cardClassName} ref={ref}>
+        {/* Decorative circles - positioned inside card boundaries */}
         <div
           className={cn(
             "absolute right-4 top-4 h-24 w-24 rounded-full translate-x-1/2 -translate-y-1/2",
@@ -131,77 +151,28 @@ export const JikeProfileCard = forwardRef<HTMLDivElement, JikeProfileCardProps>(
           )}
         />
 
+        {/* Jike Icon */}
         <div className={cn("absolute z-20", isVertical ? "hidden" : "top-4 right-4")}>
-          <Suspense fallback={<div className="h-8 w-8" />}>
-            <IconifyIcon icon="simple-icons:jike" className="h-8 w-8 opacity-80" />
-          </Suspense>
+          {platformIcon}
         </div>
 
-        <div className="card-body relative z-10">
-          <div className={cn("flex", layoutClasses)}>
-            <div className={cn(qrContainerClasses)}>
-              <button
-                onClick={() =>
-                  window.open(profileUrl || qrCodeContent, "_blank", "noopener,noreferrer")
-                }
-                className={cn(
-                  "h-28 w-28 overflow-hidden p-2",
-                  currentStyles.qr,
-                  radiusClasses[radius]
-                )}
-                title="点击访问即刻主页"
-              >
-                {qrCodeDataUrl ? (
-                  <img
-                    src={qrCodeDataUrl}
-                    alt="Jike Profile QR Code"
-                    className="h-full w-full object-contain"
-                  />
-                ) : (
-                  <div
-                    className={cn(
-                      "h-full w-full bg-gray-100 flex items-center justify-center",
-                      radiusClasses[radius]
-                    )}
-                  >
-                    <div className="text-xs text-gray-500">Loading...</div>
-                  </div>
-                )}
-              </button>
-            </div>
-
-            <div className={contentClasses}>
-              <div className={cn("space-y-2", isVertical ? "text-center" : "")}>
-                <div className="space-y-1">
-                  <div className="text-lg font-bold">{displayName}</div>
-                  <div className="text-sm opacity-70">@{username}</div>
-                </div>
-
-                <div className={cn("flex gap-4 text-sm", isVertical ? "justify-center" : "")}>
-                  {followers && (
-                    <div>
-                      <span className="font-medium">{followers}</span>
-                      <span className="opacity-70 ml-1">关注</span>
-                    </div>
-                  )}
-                  {following && (
-                    <div>
-                      <span className="font-medium">{following}</span>
-                      <span className="opacity-70 ml-1">正在关注</span>
-                    </div>
-                  )}
-                  {posts && (
-                    <div>
-                      <span className="font-medium">{posts}</span>
-                      <span className="opacity-70 ml-1">动态</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="text-sm opacity-70 font-semibold">扫码在即刻关注我</div>
-              </div>
-            </div>
-          </div>
+        <div className={containerClassName}>
+          <SocialProfileCardPlain
+            qrCodeContent={qrCodeContent}
+            displayName={displayName}
+            username={username}
+            stats={stats}
+            description="扫码在即刻关注我"
+            profileUrl={profileUrl || qrCodeContent}
+            containerClassName={layoutContainerClassName}
+            qrContainerClassName={qrContainerClassName}
+            contentClassName={contentSectionClassName}
+            userInfoClassName={userInfoClassName}
+            displayNameClassName={displayNameClassName}
+            usernameClassName={usernameClassName}
+            statsClassName={statsClassName}
+            descriptionClassName={descriptionClassName}
+          />
         </div>
       </div>
     );
