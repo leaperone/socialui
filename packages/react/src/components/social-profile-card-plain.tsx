@@ -5,7 +5,7 @@ export interface SocialProfileCardPlainProps {
   // 数据属性 - 通用字段
   qrCodeContent?: string;
   displayName?: string;
-  username?: string;
+  username?: React.ReactNode;
   uid?: string;
 
   // 统计数据 - 灵活字段
@@ -143,7 +143,11 @@ export const SocialProfileCardPlain = forwardRef<HTMLDivElement, SocialProfileCa
             {/* User Info Section */}
             <div className={userInfoClassName}>
               <div className={displayNameClassName}>{displayName}</div>
-              {username && <div className={usernameClassName}>@{username}</div>}
+              {username && (
+                <div className={usernameClassName}>
+                  {typeof username === "string" ? `@${username}` : username}
+                </div>
+              )}
               {uid && <div className={uidClassName}>UID: {uid}</div>}
             </div>
 
