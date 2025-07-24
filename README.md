@@ -2,12 +2,15 @@
 
 A modern React UI component library for social media display with semantic colors and DaisyUI integration.
 
+👉 [官方网站 / Official Website](https://ui.2some.one)
+
 ## 📖 文档
 
 详细的技术文档和使用指南请查看 [docs/](./docs/) 目录：
 
 - [项目文档总览](./docs/README.md)
 - [Storybook Stories 自动生成功能](./docs/storybook-auto-generation.md)
+- [官方网站 / Official Website](https://ui.2some.one)
 
 ## 🚀 快速开始
 
@@ -94,6 +97,8 @@ cd packages/ui && pnpm storybook
 ## Documentation
 
 Visit our [documentation](https://ui2someone.vercel.app) for detailed guides and examples.
+
+👉 [官方网站 / Official Website](https://ui.2some.one)
 
 ## Contributing
 

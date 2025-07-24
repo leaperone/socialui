@@ -1,6 +1,45 @@
+import { lazy, Suspense } from "react";
+export const IconifyIcon = lazy(() =>
+  import("@iconify/react").then(mod => ({ default: mod.Icon }))
+);
+
 # UI2SOMEone 组件库
 
 > UI2SOMEone 是一个专为社交媒体链接与二维码展示场景设计的 React 组件库，帮助你快速集成美观、统一的社交分享能力。基于 Tailwind CSS 与 daisyUI，支持多平台社交卡片、按钮、二维码等常用场景，助力高效开发和一致的用户体验。
+
+<div className="flex flex-row gap-4">
+  <a
+    href="https://ui.2some.one"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-2 bg-white text-primary text-lg font-semibold rounded-full border border-gray-200 px-6 py-2 w-fit"
+  >
+    <Suspense fallback={<span className="size-6" />}>
+      <IconifyIcon
+        icon="mdi:web"
+        className="text-black"
+        style={{ width: "1.5rem", height: "1.5rem" }}
+      />
+    </Suspense>
+    <span className="text-lg text-black">访问官网</span>
+  </a>
+
+  <a
+    href="https://github.com/leaperone/ui2someone"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="items-center gap-2 bg-black flex-row flex text-white text-lg font-semibold rounded-full px-6 py-2 w-fit"
+  >
+    <Suspense fallback={<span className="size-6" />}>
+      <IconifyIcon
+        icon="mdi:github"
+        className="text-white"
+        style={{ width: "1.5rem", height: "1.5rem" }}
+      />
+    </Suspense>
+    <span className="text-lg text-white">GitHub</span>
+  </a>
+</div>
 
 ## Vision
 
