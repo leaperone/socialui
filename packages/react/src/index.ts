@@ -74,3 +74,14 @@ export {
   SocialProfileCardPlain,
   type SocialProfileCardPlainProps,
 } from "./components/social-profile-card-plain";
+
+// Honored Components
+export {
+  NotBackedByYCombinator,
+  type NotBackedByYCombinatorProps,
+} from "./honored/y-combinator/not-backed-by-ycombinator";
+
+export {
+  NotPartneredWithGoogle,
+  type NotPartneredWithGoogleProps,
+} from "./honored/google/not-partnered-with-google";
