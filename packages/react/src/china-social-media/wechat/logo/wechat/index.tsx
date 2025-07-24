@@ -1,4 +1,4 @@
-import cn from "../../../utils/cn";
+import cn from "../../../../utils/cn";
 
 // Import logo images for different languages
 import fullColorLogoEn from "./en/全彩标志.png";
